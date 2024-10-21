@@ -1,0 +1,38 @@
+name: relacion1
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.5.3
+
+dependencies:
+  flutter:
+    sdk: flutter
+  google_fonts: ^6.2.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/alonso.jpg
+    - assets/images/instagram/lolitowasap.jpeg
+    - assets/images/instagram/beso.webp
+    - assets/images/instagram/suma.jpg
+    - assets/images/instagram/post1.jpg
+    - assets/images/instagram/post3.png
+    - assets/images/instagram/post4.png
+    - assets/images/instagram/post5.png
+    - assets/images/instagram/post6.jpg
+    - assets/images/instagram/post7.jpg
+    - assets/images/instagram/post8.jpg
+    - assets/images/instagram/post9.jpg
+    - assets/images/instagram/post10.jpg
+    - assets/images/instagram/lolitoAmigos.jpg
+    - assets/images/instagram/coliseo.png
+    - assets/images/instagram/toro.png
+    - assets/images/instagram/trabajo.webp

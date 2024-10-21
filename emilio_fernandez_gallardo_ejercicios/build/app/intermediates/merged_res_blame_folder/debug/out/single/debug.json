@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "com.example.relacion1.app-merged_res-26:/mipmap-mdpi_ic_launcher.png.flat",
+        "source": "com.example.relacion1.app-main-21:/mipmap-mdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.example.relacion1.app-merged_res-26:/drawable-v21_launch_background.xml.flat",
+        "source": "com.example.relacion1.app-main-21:/drawable-v21/launch_background.xml"
+    },
+    {
+        "merged": "com.example.relacion1.app-merged_res-26:/mipmap-xxxhdpi_alonso.jpg.flat",
+        "source": "com.example.relacion1.app-main-21:/mipmap-xxxhdpi/alonso.jpg"
+    },
+    {
+        "merged": "com.example.relacion1.app-merged_res-26:/mipmap-hdpi_alonso.jpg.flat",
+        "source": "com.example.relacion1.app-main-21:/mipmap-hdpi/alonso.jpg"
+    }
+]
