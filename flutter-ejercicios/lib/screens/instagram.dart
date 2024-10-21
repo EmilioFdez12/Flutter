@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:instagram/utils/boton_historia.dart';
+import 'package:relacion1/screens/utils/instagram_utils/boton_historia.dart';
 
 void main() => runApp(const MyApp());
 
@@ -10,43 +10,35 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       title: 'Perfil de Instagram',
-      home: PerfilScreen(),
+      home: InstagramProfile(),
     );
   }
 }
 
-class PerfilScreen extends StatefulWidget {
-  const PerfilScreen({super.key});
+class InstagramProfile extends StatefulWidget {
+  const InstagramProfile({super.key});
 
   @override
-  _PerfilScreenState createState() => _PerfilScreenState();
+  _InstagramProfileState createState() => _InstagramProfileState();
 }
 
-class _PerfilScreenState extends State<PerfilScreen> {
-  int _selectedIndex = 0;
-
-  // Función para actualizar el índice seleccionado
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
+// Clase privada
+class _InstagramProfileState extends State<InstagramProfile> {
   @override
   Widget build(BuildContext context) {
     final List<String> listaFotos = [
-      "assets/images/post1.jpg",
-      "assets/images/post1.jpg",
-      "assets/images/post1.jpg",
-      "assets/images/post1.jpg",
-      "assets/images/post1.jpg",
-      "assets/images/post1.jpg",
-      "assets/images/post1.jpg",
-      "assets/images/post1.jpg",
-      "assets/images/post1.jpg",
-      "assets/images/post1.jpg",
-      "assets/images/post1.jpg",
-      "assets/images/post1.jpg",
+      "assets/images/instagram/post1.jpg",
+      "assets/images/instagram/post1.jpg",
+      "assets/images/instagram/post1.jpg",
+      "assets/images/instagram/post1.jpg",
+      "assets/images/instagram/post1.jpg",
+      "assets/images/instagram/post1.jpg",
+      "assets/images/instagram/post1.jpg",
+      "assets/images/instagram/post1.jpg",
+      "assets/images/instagram/post1.jpg",
+      "assets/images/instagram/post1.jpg",
+      "assets/images/instagram/post1.jpg",
+      "assets/images/instagram/post1.jpg",
     ];
 
     return Scaffold(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import "./screens/MenuLateral.dart";
+import "./screens/menuLateral.dart";
 
 void main(List<String> args) => runApp(const Principal());
 

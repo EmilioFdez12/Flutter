@@ -19,4 +19,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/images/roll_item_F1.png
+    - assets/images/instagram/lolitowasap.jpeg
+    - assets/images/instagram/beso.webp
+    - assets/images/instagram/suma.jpg
+    - assets/images/instagram/post1.jpg

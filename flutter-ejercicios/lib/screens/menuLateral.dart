@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'Enlace1.dart';
-import 'Enlace2.dart';
+import 'package:relacion1/screens/instagram.dart';
+import 'enlace.dart';
+import 'enlace2.dart';
 
 
 class MenuLateral extends StatelessWidget {
@@ -65,6 +66,14 @@ class MenuLateral extends StatelessWidget {
               Navigator.of(context).pop();
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (BuildContext context) => const Enlace2()));
+            },
+          ),
+            ListTile(
+            title: const Text("Instagram"),
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => const InstagramProfile()));
             },
           ),
         ],
