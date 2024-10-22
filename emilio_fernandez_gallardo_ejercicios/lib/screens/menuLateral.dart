@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:relacion1/screens/contador_clicks.dart';
 import 'package:relacion1/screens/enlace3.dart';
 import 'package:relacion1/screens/enlace4.dart';
 import 'package:relacion1/screens/instagram.dart';
 import 'enlace1.dart';
 import 'enlace2.dart';
 
-
 class MenuLateral extends StatelessWidget {
   const MenuLateral({super.key});
-
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +56,14 @@ class MenuLateral extends StatelessWidget {
               Navigator.of(context).pop();
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (BuildContext context) => const Enlace4()));
+            },
+          ),
+          ListTile(
+            title: const Text("Clicker"),
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => const Contador()));
             },
           ),
           ListTile(

@@ -4,7 +4,7 @@
         android:label="Apps Flutter"
         android:name="${applicationName}"
         android:icon="@mipmap/alonso"
-        android:enableOnBackInvokedCallback="true"> <!-- Esta línea debe estar aquí -->
+        android:enableOnBackInvokedCallback="true">
         <activity
             android:name=".MainActivity"
             android:exported="true"
