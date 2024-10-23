@@ -49,12 +49,7 @@ class _MiContadorState extends State<Contador> {
     return Scaffold(
       appBar: AppBar(
         title: const Center(child: Text("Contador")),
-        leading: IconButton( // Botón para volver atrás
-          icon: const Icon(Icons.arrow_back), // Icono de flecha hacia atrás
-          onPressed: () {
-            Navigator.pop(context); // Volver a la pantalla anterior
-          },
-        ),
+        automaticallyImplyLeading: true, // Esto agrega el botón de retroceso automático
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,

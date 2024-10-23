@@ -6,10 +6,8 @@ import 'package:relacion1/screens/instagram.dart';
 import 'enlace1.dart';
 import 'enlace2.dart';
 
-
 class MenuLateral extends StatelessWidget {
   const MenuLateral({super.key});
-
 
   @override
   Widget build(BuildContext context) {
