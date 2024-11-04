@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:relacion1/screens/drawer.dart'; 
+
 
 class Enlace4 extends StatelessWidget {
   const Enlace4({super.key});
@@ -6,6 +8,7 @@ class Enlace4 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const MenuLateral(),
       appBar: AppBar(
         title: const Text("Cuarta pantalla"),
       ),

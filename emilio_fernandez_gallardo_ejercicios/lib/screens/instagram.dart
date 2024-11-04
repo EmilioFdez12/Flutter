@@ -1,29 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:relacion1/screens/utils/boton_historia.dart';
+import 'package:relacion1/screens/drawer.dart';
 
-void main() => runApp(const MyApp());
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Perfil de Instagram',
-      home: InstagramCopy(),
-    );
-  }
-}
-
-class InstagramCopy extends StatefulWidget {
-  const InstagramCopy({super.key});
-
-  @override
-  // ignore: library_private_types_in_public_api
-  _InstagramCopyState createState() => _InstagramCopyState();
-}
-
-class _InstagramCopyState extends State<InstagramCopy> {
+class Instagram extends StatelessWidget {
+  const Instagram({super.key});
+  
   @override
   Widget build(BuildContext context) {
     final List<String> listaFotos = [
@@ -67,6 +48,7 @@ class _InstagramCopyState extends State<InstagramCopy> {
           ],
         ),
       ),
+      drawer: const MenuLateral(),
       body: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(
@@ -218,7 +200,8 @@ class _InstagramCopyState extends State<InstagramCopy> {
                             title: "🇪🇸"),
                         SizedBox(width: 10),
                         BotonHistoria(
-                            imagePath: "assets/images/instagram/coliseo.png",
+                            imagePath:
+                                "assets/images/instagram/coliseo.png",
                             title: "🇮🇹🍕"),
                         SizedBox(width: 10),
                         BotonHistoria(

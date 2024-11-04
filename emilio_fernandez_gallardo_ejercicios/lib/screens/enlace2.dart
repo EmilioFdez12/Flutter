@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:relacion1/screens/drawer.dart'; 
 
 class Enlace2 extends StatelessWidget {
   const Enlace2({super.key});
@@ -6,6 +7,7 @@ class Enlace2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const MenuLateral(),
       appBar: AppBar(
         title: const Text("Segunda pantalla"),
       ),

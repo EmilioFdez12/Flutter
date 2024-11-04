@@ -1,18 +1,5 @@
 import 'package:flutter/material.dart';
-
-void main() => runApp(const MyApp());
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Contador',
-      home: Contador(),
-    );
-  }
-}
+import 'package:relacion1/screens/drawer.dart';
 
 class Contador extends StatefulWidget {
   const Contador({super.key});
@@ -38,18 +25,41 @@ class _MiContadorState extends State<Contador> {
     });
   }
 
-  void resetear() {
-    setState(() {
-      numeroVeces = 0;
-    });
+  void resetear() async {
+    final shouldReset = await showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Confirmar reinicio'),
+          content: const Text('¿Estás seguro de que deseas reiniciar el contador?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: const Text('Cancelar'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: const Text('Reiniciar'),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (shouldReset == true) {
+      setState(() {
+        numeroVeces = 0;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const MenuLateral(),
       appBar: AppBar(
         title: const Center(child: Text("Contador")),
-        automaticallyImplyLeading: true, // Esto agrega el botón de retroceso automático
+        automaticallyImplyLeading: true,
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -68,7 +78,8 @@ class _MiContadorState extends State<Contador> {
             children: [
               FloatingActionButton(
                 onPressed: incrementar,
-                backgroundColor: Colors.red[500],
+                backgroundColor: Colors.red[500],            
+                tooltip: 'Incrementar',
                 child: const Icon(
                   Icons.add,
                   size: 30,
@@ -79,6 +90,7 @@ class _MiContadorState extends State<Contador> {
               FloatingActionButton(
                 onPressed: decrementar,
                 backgroundColor: Colors.blue[500],
+                tooltip: 'Decrementar',
                 child: const Icon(
                   Icons.remove,
                   size: 30,
@@ -89,6 +101,7 @@ class _MiContadorState extends State<Contador> {
               FloatingActionButton(
                 onPressed: resetear,
                 backgroundColor: Colors.green[500],
+                tooltip: 'Reiniciar',
                 child: const Icon(Icons.refresh, size: 30, color: Colors.white),
               ),
             ],

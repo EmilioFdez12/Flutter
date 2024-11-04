@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:relacion1/screens/drawer.dart';
+
 
 class Enlace1 extends StatelessWidget {
   const Enlace1({super.key});
@@ -7,6 +9,7 @@ class Enlace1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const MenuLateral(),
       appBar: AppBar(
         title: const Text("Primera pantalla"),
       ),
