@@ -6,6 +6,7 @@
         android:name="${applicationName}"
         android:icon="@mipmap/alonso"
         android:enableOnBackInvokedCallback="true">
+        
         <activity
             android:name=".MainActivity"
             android:exported="true"

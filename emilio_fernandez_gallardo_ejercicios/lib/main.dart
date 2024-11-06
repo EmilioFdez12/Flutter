@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:relacion1/screens/juego.dart';
 import 'package:relacion1/screens/screens.dart';
 
 void main() {
@@ -24,6 +23,7 @@ class Principal extends StatelessWidget {
         '/contador': (context) => const Contador(),
         '/instagram': (context) => const Instagram(),
         '/juegoClicks': (context) => const JuegoClicks() ,
+
       },
     );
   }

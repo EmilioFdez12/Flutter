@@ -6,3 +6,4 @@ export 'enlace3.dart';
 export 'enlace4.dart';
 export 'drawer.dart';
 export 'instagram.dart';
+export 'random_images.dart';
