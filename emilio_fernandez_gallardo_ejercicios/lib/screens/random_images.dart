@@ -87,7 +87,7 @@ class _JuegoClicksState extends State<JuegoClicks> {
             left: MediaQuery.of(context).size.width * 0.05,
             child: Text(
               'Puntos: $points',
-              style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+               style: Theme.of(context).textTheme.titleLarge,
             ),
           ),
           Positioned(

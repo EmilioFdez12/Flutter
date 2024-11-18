@@ -32,7 +32,7 @@ class Enlace4 extends StatelessWidget {
             color: Colors.orange,),
             Icon(Icons.settings,
             size: 50,
-            color:Color.fromARGB(255, 36, 36, 36)),
+            color:Colors.white,)
           ],
         ),
       ),

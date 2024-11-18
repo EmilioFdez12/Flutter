@@ -12,8 +12,25 @@ class Principal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Named Routes Demo',
+      title: 'Relación Ejercicios',
       initialRoute: '/',
+      theme: ThemeData(
+        scaffoldBackgroundColor: const Color(0xFF121212), // Color de fondo de la pantalla
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.blue[400], // Color de la AppBar
+          titleTextStyle: TextStyle(
+            color: Colors.black,
+            fontSize: 24,
+          ),
+        ),
+        textTheme: TextTheme(
+          titleLarge: GoogleFonts.anton(
+            fontSize: 36,
+            color: const Color.fromARGB(255, 206, 206, 206),
+          ),
+          // Puedes agregar más estilos de texto aquí si lo necesitas
+        ),
+      ),
       routes: {
         '/': (context) => const HomeScreen(),
         '/enlace1': (context) => const Enlace1(),
@@ -22,8 +39,7 @@ class Principal extends StatelessWidget {
         '/enlace4': (context) => const Enlace4(),
         '/contador': (context) => const Contador(),
         '/instagram': (context) => const Instagram(),
-        '/juegoClicks': (context) => const JuegoClicks() ,
-
+        '/juegoClicks': (context) => const JuegoClicks(),
       },
     );
   }
@@ -36,22 +52,17 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.red[400],
         title: const Text("Rel1"),
       ),
-      backgroundColor: const Color(0xFF080808),
-      drawer: const MenuLateral(), // Use MenuLateral here
+      drawer: const MenuLateral(),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               'Relación 1',
-              style: GoogleFonts.anton(
-                fontSize: 64,
-                color: Colors.red[500],
-              ),
               textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.titleLarge, // Aplica el estilo titleLarge definido en el tema
             ),
           ],
         ),

@@ -20,17 +20,14 @@ class Enlace1 extends StatelessWidget {
           children: [
             Text(
               'Emilio Fernández Gallardo',
-              style: GoogleFonts.lexend(
-                fontSize: 30,
-                color: Colors.red[500],
-              ),
-              textAlign: TextAlign.center,
+              // Estilo de el tema de la app
+              style: Theme.of(context).textTheme.titleLarge,
             ),
             SelectableText(
-              'https://github.com/EmilioFdez12/2DAM/tree/main/P.Multimedia',
+              'https://github.com/EmilioFdez12/Flutter',
               style: GoogleFonts.anton(
                 fontSize: 14,
-                color: const Color(0xFFF1F1F1),
+                color: Colors.blue[400],
               ),
             ),
           ],
