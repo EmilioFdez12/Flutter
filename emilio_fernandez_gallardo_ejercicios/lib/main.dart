@@ -37,9 +37,9 @@ class Principal extends StatelessWidget {
         '/enlace2': (context) => const Enlace2(),
         '/enlace3': (context) => const Enlace3(),
         '/enlace4': (context) => const Enlace4(),
-        '/contador': (context) => const Contador(),
         '/instagram': (context) => const Instagram(),
         '/juegoClicks': (context) => const JuegoClicks(),
+        '/clicker': (context) => const Clicker(),
       },
     );
   }
