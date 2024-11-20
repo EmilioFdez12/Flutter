@@ -1,4 +1,4 @@
-#Wed Oct 23 09:11:34 CEST 2024
+#Wed Nov 20 13:39:35 CET 2024
 base.0=C\:\\Users\\Alumnado2DAM\\Desktop\\Flutter\\emilio_fernandez_gallardo_ejercicios\\build\\app\\intermediates\\dex\\release\\minifyReleaseWithR8\\classes.dex
 path.0=classes.dex
 renamed.0=classes.dex

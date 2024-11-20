@@ -26,6 +26,8 @@
 
     <application
         android:name="android.app.Application"
+        android.enableOnBackInvokedCallback="true"
+        android.isInProgress="true"
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:extractNativeLibs="true"
         android:icon="@mipmap/alonso"
