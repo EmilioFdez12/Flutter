@@ -25,7 +25,7 @@ class Principal extends StatelessWidget {
         ),
         textTheme: TextTheme(
           titleLarge: GoogleFonts.anton(
-            fontSize: 36,
+            fontSize: 32,
             color: const Color.fromARGB(255, 206, 206, 206),
           ),
           // Puedes agregar más estilos de texto aquí si lo necesitas

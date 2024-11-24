@@ -5,7 +5,7 @@ export 'enlace3.dart';
 export 'enlace4.dart';
 export 'drawer.dart';
 export 'instagram.dart';
-export 'random_images.dart';
+export 'random_images_games.dart';
 export 'clicker.dart';
 export 'utils/instagram/instagram_appbar.dart';
 export 'utils/instagram/instagram_stories.dart';
