@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:relacion1/screens/piramide.dart';
 import 'package:relacion1/screens/screens.dart';
 
 class AppRoutes {
