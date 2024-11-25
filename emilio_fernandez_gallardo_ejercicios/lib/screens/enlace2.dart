@@ -12,7 +12,8 @@ class Enlace2 extends StatelessWidget {
         title: const Text("Segunda pantalla"),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0), // Márgenes a los lados
+        // Márgenes a los lados
+        padding: const EdgeInsets.symmetric(horizontal: 16.0), 
         child: Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -22,13 +23,13 @@ class Enlace2 extends StatelessWidget {
                 width: 100,
                 height: 250,
               ),
-              SizedBox(width: 10), // Espacio entre imágenes
+              SizedBox(width: 10),
               Image(
                 image: AssetImage("assets/images/alonso.jpg"),
                 width: 100,
                 height: 250,
               ),
-              SizedBox(width: 10), // Espacio entre imágenes
+              SizedBox(width: 10),
               Image(
                 image: AssetImage("assets/images/alonso.jpg"),
                 width: 100,

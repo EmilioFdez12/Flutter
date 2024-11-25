@@ -17,9 +17,9 @@ class Enlace3 extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [
             Image(image: AssetImage("assets/images/alonso.jpg"), width: 300, height: 200),
-            SizedBox(width: 10), // Espacio entre imágenes
+            SizedBox(width: 10),
             Image(image: AssetImage("assets/images/alonso.jpg"), width: 300, height: 200),
-            SizedBox(width: 10), // Espacio entre imágenes
+            SizedBox(width: 10),
             Image(image: AssetImage("assets/images/alonso.jpg"), width: 300, height: 200),
           ],
         ),

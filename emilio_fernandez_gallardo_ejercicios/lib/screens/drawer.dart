@@ -1,4 +1,7 @@
+// menu_lateral.dart
+
 import 'package:flutter/material.dart';
+import 'package:relacion1/screens/screens.dart'; // Asegúrate de importar AppRoutes
 
 class MenuLateral extends StatelessWidget {
   const MenuLateral({super.key});
@@ -24,98 +27,126 @@ class MenuLateral extends StatelessWidget {
             title: Text(
               "Enlace 1",
               style: TextStyle(
-                color: currentRoute == '/enlace1' ? Colors.white : null,
+                color: currentRoute == AppRoutes.enlace1 ? Colors.white : null,
               ),
             ),
-            selected: currentRoute == '/enlace1',
+            selected: currentRoute == AppRoutes.enlace1,
             selectedTileColor: Colors.blue[300],
             onTap: () {
               Navigator.of(context).pop();
-              Navigator.of(context).pushNamed('/enlace1');
+              Navigator.of(context).pushNamed(AppRoutes.enlace1);
             },
           ),
           ListTile(
             title: Text(
               "Enlace 2",
               style: TextStyle(
-                color: currentRoute == '/enlace2' ? Colors.white : null,
+                color: currentRoute == AppRoutes.enlace2 ? Colors.white : null,
               ),
             ),
-            selected: currentRoute == '/enlace2', 
-            selectedTileColor: Colors.blue[300], 
+            selected: currentRoute == AppRoutes.enlace2,
+            selectedTileColor: Colors.blue[300],
             onTap: () {
               Navigator.of(context).pop();
-              Navigator.of(context).pushNamed('/enlace2');
+              Navigator.of(context).pushNamed(AppRoutes.enlace2);
             },
           ),
           ListTile(
             title: Text(
               "Enlace 3",
               style: TextStyle(
-                color: currentRoute == '/enlace3' ? Colors.white : null,
+                color: currentRoute == AppRoutes.enlace3 ? Colors.white : null,
               ),
             ),
-            selected: currentRoute == '/enlace3',
-            selectedTileColor: Colors.blue[300], 
+            selected: currentRoute == AppRoutes.enlace3,
+            selectedTileColor: Colors.blue[300],
             onTap: () {
               Navigator.of(context).pop();
-              Navigator.of(context).pushNamed('/enlace3');
+              Navigator.of(context).pushNamed(AppRoutes.enlace3);
             },
           ),
           ListTile(
             title: Text(
               "Enlace 4",
               style: TextStyle(
-                color: currentRoute == '/enlace4' ? Colors.white : null,
+                color: currentRoute == AppRoutes.enlace4 ? Colors.white : null,
               ),
             ),
-            selected: currentRoute == '/enlace4', 
+            selected: currentRoute == AppRoutes.enlace4,
             selectedTileColor: Colors.blue[300],
             onTap: () {
               Navigator.of(context).pop();
-              Navigator.of(context).pushNamed('/enlace4');
+              Navigator.of(context).pushNamed(AppRoutes.enlace4);
+            },
+          ),
+          ListTile(
+            title: Text(
+              "Enlace 5",
+              style: TextStyle(
+                color: currentRoute == AppRoutes.enlace5 ? Colors.white : null,
+              ),
+            ),
+            selected: currentRoute == AppRoutes.enlace5,
+            selectedTileColor: Colors.blue[300],
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).pushNamed(AppRoutes.enlace5);
+            },
+          ),
+          ListTile(
+            title: Text(
+              "Piramide",
+              style: TextStyle(
+                color: currentRoute == AppRoutes.piramide ? Colors.white : null,
+              ),
+            ),
+            selected: currentRoute == AppRoutes.piramide,
+            selectedTileColor: Colors.blue[300],
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).pushNamed(AppRoutes.piramide);
             },
           ),
           ListTile(
             title: Text(
               "Clicker",
               style: TextStyle(
-                color: currentRoute == '/clicker' ? Colors.white : null, 
+                color: currentRoute == AppRoutes.clicker ? Colors.white : null,
               ),
             ),
-            selected: currentRoute == '/clicker',  
-            selectedTileColor: Colors.blue[300],  
+            selected: currentRoute == AppRoutes.clicker,
+            selectedTileColor: Colors.blue[300],
             onTap: () {
               Navigator.of(context).pop();
-              Navigator.of(context).pushNamed('/clicker');
+              Navigator.of(context).pushNamed(AppRoutes.clicker);
             },
           ),
           ListTile(
             title: Text(
               "Instagram",
               style: TextStyle(
-                color: currentRoute == '/instagram' ? Colors.white : null,
+                color: currentRoute == AppRoutes.instagram ? Colors.white : null,
               ),
             ),
-            selected: currentRoute == '/instagram',
-            selectedTileColor: Colors.blue[300], 
+            selected: currentRoute == AppRoutes.instagram,
+            selectedTileColor: Colors.blue[300],
             onTap: () {
               Navigator.of(context).pop();
-              Navigator.of(context).pushNamed('/instagram');
+              Navigator.of(context).pushNamed(AppRoutes.instagram);
             },
           ),
           ListTile(
             title: Text(
               "Juego Clicks",
               style: TextStyle(
-                color: currentRoute == '/juegoClicks' ? Colors.white : null, 
+                color: currentRoute == AppRoutes.juegoClicks ? Colors.white : null,
               ),
             ),
-            selected: currentRoute == '/juegoClicks',  
-            selectedTileColor: Colors.blue[300],  
+            selected: currentRoute == AppRoutes.juegoClicks,
+            selectedTileColor: Colors.blue[300],
             onTap: () {
               Navigator.of(context).pop();
-              Navigator.of(context).pushNamed('/juegoClicks');
+              Navigator.of(context).pushNamed(AppRoutes.juegoClicks);
             },
           ),
         ],

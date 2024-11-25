@@ -13,9 +13,9 @@ class JuegoClicks extends StatefulWidget {
 
 class _JuegoClicksState extends State<JuegoClicks> {
   int points = 0;
-  int streakNegative = 0; // Contador de racha negativa
+  int streakNegative = 0;
   bool pulsado = false;
-  bool hasShownBotMessage = false; // Para controlar el mensaje de puntaje negativo
+  bool hasShownBotMessage = false;
   late Timer _timer;
   final Duration timeLimit = const Duration(seconds: 1);
   double imageX = 0.0;
@@ -64,8 +64,9 @@ class _JuegoClicksState extends State<JuegoClicks> {
   void moveImage() {
     Random random = Random();
     setState(() {
-      imageX = random.nextDouble() * 0.8;
-      imageY = random.nextDouble() * 0.8;
+      // Limita el movimiento de la imagen dentro de un área de 60% del ancho y 60% de la altura
+      imageX = random.nextDouble() * 0.6;
+      imageY = random.nextDouble() * 0.6;
       currentImage = images[random.nextInt(images.length)];
     });
   }
@@ -104,8 +105,6 @@ class _JuegoClicksState extends State<JuegoClicks> {
     );
   }
 
-  
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -115,17 +114,23 @@ class _JuegoClicksState extends State<JuegoClicks> {
       ),
       body: Stack(
         children: [
+          // Contenedor para los puntos
           Positioned(
             top: 20,
-            left: MediaQuery.of(context).size.width * 0.05,
-            child: Text(
-              'Puntos: $points',
-              style: Theme.of(context).textTheme.titleLarge,
+            left: 0,
+            right: 0,
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              color: Colors.black.withOpacity(0.5),
+              child: Text(
+                'Puntos: $points',
+                style: Theme.of(context).textTheme.titleLarge,
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
-          Positioned(
-            left: imageX * MediaQuery.of(context).size.width,
-            top: imageY * MediaQuery.of(context).size.height,
+          // Contenedor que limita el área donde se mueve la imagen
+          Positioned.fill(
             child: GestureDetector(
               onTap: () {
                 setState(() {
@@ -137,10 +142,18 @@ class _JuegoClicksState extends State<JuegoClicks> {
                 resetTimer();
                 moveImage();
               },
-              child: Image.asset(
-                currentImage,
-                width: 100,
-                height: 100,
+              child: Stack(
+                children: [
+                  Positioned(
+                    left: imageX * MediaQuery.of(context).size.width,
+                    bottom: imageY * MediaQuery.of(context).size.height,
+                    child: Image.asset(
+                      currentImage,
+                      width: 100,
+                      height: 100,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -149,16 +162,15 @@ class _JuegoClicksState extends State<JuegoClicks> {
     );
   }
 
-@override
-void dispose() {
-  _timer.cancel(); // Detener el temporizador
-  // Reiniciar valores
-  setState(() {
-    points = 0;
-    streakNegative = 0;
-    hasShownBotMessage = false;
-  });
-  super.dispose(); 
-}
-
+  @override
+  void dispose() {
+    _timer.cancel(); // Detener el temporizador
+    // Reiniciar valores
+    setState(() {
+      points = 0;
+      streakNegative = 0;
+      hasShownBotMessage = false;
+    });
+    super.dispose();
+  }
 }
