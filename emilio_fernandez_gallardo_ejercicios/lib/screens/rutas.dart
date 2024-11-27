@@ -13,6 +13,7 @@ class AppRoutes {
   static const String instagram = '/instagram';
   static const String juegoClicks = '/juegoClicks';
   static const String clicker = '/clicker';
+  static const String juegoCartas = '/juegoCartas';
 
   // Mapa de rutas a pantallas
   static final Map<String, Widget Function(BuildContext)> _routes = {
@@ -26,6 +27,7 @@ class AppRoutes {
     instagram: (_) => const Instagram(),
     juegoClicks: (_) => const JuegoClicks(),
     clicker: (_) => const Clicker(),
+    juegoCartas: (_) => const JuegoCartas(),
   };
 
   // Función para generar las rutas

@@ -135,18 +135,19 @@ class MenuLateral extends StatelessWidget {
               Navigator.of(context).pushNamed(AppRoutes.instagram);
             },
           ),
+          
           ListTile(
             title: Text(
-              "Juego Clicks",
+              "Juego Cartas",
               style: TextStyle(
-                color: currentRoute == AppRoutes.juegoClicks ? Colors.white : null,
+                color: currentRoute == AppRoutes.juegoCartas ? Colors.white : null,
               ),
             ),
-            selected: currentRoute == AppRoutes.juegoClicks,
+            selected: currentRoute == AppRoutes.juegoCartas,
             selectedTileColor: Colors.blue[300],
             onTap: () {
               Navigator.of(context).pop();
-              Navigator.of(context).pushNamed(AppRoutes.juegoClicks);
+              Navigator.of(context).pushNamed(AppRoutes.juegoCartas);
             },
           ),
         ],

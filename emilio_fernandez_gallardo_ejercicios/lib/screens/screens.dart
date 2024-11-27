@@ -5,6 +5,7 @@ export 'enlace3.dart';
 export 'enlace4.dart';
 export 'enlace5.dart';
 export 'drawer.dart';
+export 'juego_cartas.dart';
 export 'instagram.dart';
 export 'random_images_games.dart';
 export 'home_screen.dart';

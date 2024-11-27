@@ -44,6 +44,7 @@ class Principal extends StatelessWidget {
         '/instagram': (context) => const Instagram(),
         '/juegoClicks': (context) => const JuegoClicks(),
         '/clicker': (context) => const Clicker(),
+        '/juegoCartas': (context) => const JuegoCartas(),
       },
     );
   }
