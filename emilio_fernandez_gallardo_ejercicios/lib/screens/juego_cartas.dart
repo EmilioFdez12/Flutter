@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 import 'dart:math';
-import 'package:google_fonts/google_fonts.dart';
+
+import 'package:relacion1/screens/drawer.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -16,41 +18,35 @@ class JuegoCartas extends StatefulWidget {
 }
 
 class _JuegoCartasState extends State<JuegoCartas> {
-  double puntosJugador = 0.0; // Puntos del jugador
-  double puntosMaquina = 0.0; // Puntos de la máquina
-  bool finDelJuego = false; // Indicador si el juego ha terminado
-  String mensaje = ''; // Mensaje a mostrar
-  bool jugadorPlanto = false; // Si el jugador se plantó o no
+  double puntosJugador = 0.0;
+  double puntosMaquina = 0.0;
+  bool finDelJuego = false;
+  String mensaje = '';
+  bool jugadorPlanto = false;
   final Random random = Random();
 
-  int vidasJugador = 3; // Vidas del jugador
-  int vidasMaquina = 3; // Vidas de la máquina
-
-  // Cartas disponibles con su valor correspondiente (solo un palo)
   final List<Map<String, dynamic>> cartas = [
-    {'nombre': '1', 'valor': 1.0, 'palo': 'Oros'},
-    {'nombre': '2', 'valor': 2.0, 'palo': 'Oros'},
-    {'nombre': '3', 'valor': 3.0, 'palo': 'Oros'},
-    {'nombre': '4', 'valor': 4.0, 'palo': 'Oros'},
-    {'nombre': '5', 'valor': 5.0, 'palo': 'Oros'},
-    {'nombre': '6', 'valor': 6.0, 'palo': 'Oros'},
-    {'nombre': '7', 'valor': 7.0, 'palo': 'Oros'},
-    {'nombre': 'Sota', 'valor': 0.5, 'palo': 'Oros'},
-    {'nombre': 'Caballo', 'valor': 0.5, 'palo': 'Oros'},
-    {'nombre': 'Rey', 'valor': 0.5, 'palo': 'Oros'},
+    {'nombre': '1', 'valor': 1.0},
+    {'nombre': '2', 'valor': 2.0},
+    {'nombre': '3', 'valor': 3.0},
+    {'nombre': '4', 'valor': 4.0},
+    {'nombre': '5', 'valor': 5.0},
+    {'nombre': '6', 'valor': 6.0},
+    {'nombre': '7', 'valor': 7.0},
+    {'nombre': 'Sota', 'valor': 0.5},
+    {'nombre': 'Caballo', 'valor': 0.5},
+    {'nombre': 'Rey', 'valor': 0.5},
   ];
-
-  // Mazo de cartas jugables
   List<Map<String, dynamic>> mazo = [];
-
-  bool juegoIniciado = false; // Indicador para saber si el juego ha comenzado
+  List<Map<String, dynamic>> cartasJugador = [];
+  List<Map<String, dynamic>> cartasMaquina = [];
 
   @override
   void initState() {
     super.initState();
+    reiniciarJuego();
   }
 
-  // Función para reiniciar el juego
   void reiniciarJuego() {
     setState(() {
       puntosJugador = 0.0;
@@ -58,14 +54,13 @@ class _JuegoCartasState extends State<JuegoCartas> {
       finDelJuego = false;
       mensaje = 'Comienza el juego';
       jugadorPlanto = false;
-      vidasJugador = 3; // Reinicia las vidas del jugador
-      vidasMaquina = 3; // Reinicia las vidas de la máquina
+      cartasJugador.clear();
+      cartasMaquina.clear();
       mazo = List.from(cartas);
       mazo.shuffle(random);
     });
   }
 
-  // Función para sacar una carta del mazo
   Map<String, dynamic> sacarCarta() {
     if (mazo.isEmpty) {
       reiniciarJuego();
@@ -74,7 +69,6 @@ class _JuegoCartasState extends State<JuegoCartas> {
     return mazo.removeLast();
   }
 
-  // Turno del jugador
   void turnoJugador() {
     if (finDelJuego || jugadorPlanto) return;
 
@@ -83,171 +77,150 @@ class _JuegoCartasState extends State<JuegoCartas> {
 
     setState(() {
       puntosJugador += carta['valor'];
-      mensaje =
-          'Sacaste: ${carta['nombre']} de ${carta['palo']} (Valor: ${carta['valor']})';
+      cartasJugador.add(carta);
+      mensaje = 'Puntos: $puntosJugador';
     });
 
     if (puntosJugador > 7.5) {
       setState(() {
         finDelJuego = true;
-        mensaje = 'Te pasaste de 7.5. ¡Perdiste!';
-        vidasJugador--; // Se le quita una vida al jugador
+        mensaje = '¡Perdiste!';
+        
+      });
+    }
+
+    // Si el jugador tiene 7.5 exactamente, gana
+    if (puntosJugador == 7.5) {
+      setState(() {
+        finDelJuego = true;
+        mensaje = '¡Ganaste!';
       });
     }
   }
 
-  // Turno del jugador: se planta
   void plantarse() {
     setState(() {
       jugadorPlanto = true;
-      mensaje = 'Te plantaste. Ahora es el turno de la máquina.';
+      mensaje = 'Turno de la máquina.';
     });
 
-    turnoMaquina(); // Empieza el turno de la máquina
+    turnoMaquina();
   }
 
-  // Turno de la máquina
-  void turnoMaquina() {
+  void turnoMaquina() async {
     if (finDelJuego) return;
 
     double puntosTemp = puntosMaquina;
 
-    while (puntosTemp < 7.5) {
+    // Aquí la máquina no va a contar la última carta del jugador si se plantó
+    List<Map<String, dynamic>> cartasJugadorSinUltima = List.from(cartasJugador);
+    if (jugadorPlanto) {
+      // Elimina la última carta del jugador de la lista para que no se cuente
+      cartasJugadorSinUltima.removeLast();
+    }
+
+    // La máquina toma cartas, pero no tiene en cuenta la última del jugador
+    while (puntosTemp <= puntosJugador && puntosTemp < 7.5) {
+      await Future.delayed(const Duration(seconds: 2));
       Map<String, dynamic> carta = sacarCarta();
       if (carta.isEmpty) break;
 
-      puntosTemp += carta['valor'];
+      setState(() {
+        puntosTemp += carta['valor'];
+        cartasMaquina.add(carta);
+      });
+
+      if (puntosTemp > 7.5) break;
     }
 
     setState(() {
       puntosMaquina = puntosTemp;
-      if (puntosMaquina > 7.5) {
-        mensaje = 'La máquina se pasó de 7.5. ¡Ganaste!';
-        finDelJuego = true;
-        vidasMaquina--; // Se le quita una vida a la máquina
-      } else if (puntosJugador > puntosMaquina) {
-        mensaje =
-            '¡Ganaste! Tienes $puntosJugador puntos, la máquina tiene $puntosMaquina puntos.';
-        finDelJuego = true;
-      } else if (puntosJugador < puntosMaquina) {
-        mensaje =
-            '¡Perdiste! Tienes $puntosJugador puntos, la máquina tiene $puntosMaquina puntos.';
-        finDelJuego = true;
-        vidasJugador--; // Se le quita una vida al jugador
-      } else {
-        mensaje = 'Empate. Ambos tienen $puntosJugador puntos.';
-        finDelJuego = true;
-      }
+      evaluarResultado();
     });
   }
 
-  // Función para iniciar el juego
-  void iniciarJuego() {
-    setState(() {
-      juegoIniciado = true;
-      reiniciarJuego();
-    });
+void evaluarResultado() {
+  if (puntosMaquina > 7.5) {
+    mensaje = '¡Ganaste!';
+  } else if (puntosJugador > puntosMaquina) {
+    mensaje =
+        '¡Ganaste!';
+  } else if (puntosJugador < puntosMaquina) {
+    mensaje =
+        '¡Perdiste!';
+  } else {
+    mensaje = 'Perdiste';
+  }
+
+  finDelJuego = true;
+}
+
+
+  Widget mostrarCartas(List<Map<String, dynamic>> cartas, Color color) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: cartas
+          .map((carta) => Container(
+                margin: const EdgeInsets.symmetric(horizontal: 5),
+                padding: const EdgeInsets.only(top: 20, bottom: 20, left: 10, right: 10),
+                decoration: BoxDecoration(
+                  color: color,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Text(
+                  carta['valor'].toString(),
+                  style: const TextStyle(fontSize: 32, color: Colors.white),
+                ),
+              ))
+          .toList(),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const MenuLateral(),
       appBar: AppBar(
-        title: const Text("Juego 7 y Medio"),
+        title: const Text("Juego Siete y Medio"),
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Mostrar los corazones en la parte superior de la pantalla
-          Padding(
-            padding: const EdgeInsets.only(
-                top: 40.0,
-                left: 20.0, 
-                right: 20.0), 
-                // Ajusta el padding si es necesario
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // Corazones verdes para el jugador
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: List.generate(vidasJugador,
-                        (index) => Icon(Icons.favorite, color: Colors.green)),
-                  ),
-                ),
-                // Corazones rojos para la máquina
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: List.generate(vidasMaquina,
-                        (index) => Icon(Icons.favorite, color: Colors.red)),
-                  ),
-                ),
-              ],
-            ),
+          Text(
+            mensaje,
+            style: const TextStyle(fontSize: 22, color: Colors.white),
+            textAlign: TextAlign.center,
           ),
-          // Si el juego no ha comenzado, mostramos el botón para jugar
-          if (!juegoIniciado)
-            ElevatedButton(
-              onPressed: iniciarJuego,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red, // Fondo rojo
-              ),
-              child: Text(
-                'Jugar',
-                style: GoogleFonts.anton(
-                  fontSize: 24,
-                  color: Colors.white, // Letras blancas
-                ),
-              ),
-            )
-          else ...[
-            const SizedBox(height: 20), // Espacio entre los elementos
-            Text(
-              finDelJuego ? "¡Juego Terminado!" : "MI TURNO",
-              style: GoogleFonts.anton(
-                fontSize: 34,
-                color: Colors.green[400], // Color blanco
-              ),
-            ),
-            const SizedBox(height: 20),
-            // Puntos del jugador y la máquina
-            Text(
-              "Mis Puntos: $puntosJugador\nPuntos de la máquina: $puntosMaquina",
-              style: GoogleFonts.poppins(
-                fontSize: 22,
-                color: Colors.white, // Color blanco
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 20),
-            // Mensaje de turno
-            Text(
-              mensaje,
-              style: GoogleFonts.anton(
-                fontSize: 28,
-                color: Colors.white, // Color blanco
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 20),
-            // Botones para sacar carta o plantarse
+          const SizedBox(height: 40),
+          Text('Tus cartas:', style: const TextStyle(fontSize: 18, color: Colors.white)),
+          mostrarCartas(cartasJugador, Colors.green),
+          const SizedBox(height: 20),
+          Text('Cartas de la máquina:', style: const TextStyle(fontSize: 18, color: Colors.white)),
+          mostrarCartas(cartasMaquina, Colors.red),
+          const SizedBox(height: 20),
+          if (!finDelJuego) ...[
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
-                  onPressed: finDelJuego || jugadorPlanto ? null : turnoJugador,
-                  child: Text('Sacar Carta'),
+                  onPressed: turnoJugador,
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.grey[800]),
+                  child: const Text('Sacar Carta', style: TextStyle(color: Colors.white)),
                 ),
-                SizedBox(width: 20),
+                const SizedBox(width: 20),
                 ElevatedButton(
-                  onPressed: finDelJuego || jugadorPlanto ? null : plantarse,
-                  child: Text('Plantarse'),
+                  onPressed: plantarse,
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.grey[800]),
+                  child: const Text('Plantarse', style: TextStyle(color: Colors.white)),
                 ),
               ],
             ),
-            const SizedBox(height: 20),
-            // Texto de la máquina
+          ] else ...[
+            ElevatedButton(
+              onPressed: reiniciarJuego,
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.blue[400]),
+              child: const Text('Jugar de nuevo', style: TextStyle(color: Colors.white)),
+            ),
           ],
         ],
       ),
