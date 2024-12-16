@@ -135,8 +135,7 @@ class MenuLateral extends StatelessWidget {
               Navigator.of(context).pushNamed(AppRoutes.instagram);
             },
           ),
-          
-          ListTile(
+           ListTile(
             title: Text(
               "Juego Cartas",
               style: TextStyle(
@@ -150,8 +149,23 @@ class MenuLateral extends StatelessWidget {
               Navigator.of(context).pushNamed(AppRoutes.juegoCartas);
             },
           ),
+              ListTile(
+            title: Text(
+              "Formulario",
+              style: TextStyle(
+                color: currentRoute == AppRoutes.formulario ? Colors.white : null,
+              ),
+            ),
+            selected: currentRoute == AppRoutes.formulario,
+            selectedTileColor: Colors.blue[300],
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).pushNamed(AppRoutes.formulario);
+            },
+          ),
         ],
       ),
+      
     );
   }
 }

@@ -1,4 +1,4 @@
-#Sun Dec 01 10:40:48 CET 2024
+#Mon Dec 16 15:49:58 CET 2024
 base.0=C\:\\Users\\Emi\\Desktop\\DOCS\\Flutter\\emilio_fernandez_gallardo_ejercicios\\build\\app\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
 base.1=C\:\\Users\\Emi\\Desktop\\DOCS\\Flutter\\emilio_fernandez_gallardo_ejercicios\\build\\app\\intermediates\\dex\\debug\\mergeLibDexDebug\\0\\classes.dex
 base.2=C\:\\Users\\Emi\\Desktop\\DOCS\\Flutter\\emilio_fernandez_gallardo_ejercicios\\build\\app\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex

@@ -14,6 +14,7 @@ class AppRoutes {
   static const String juegoClicks = '/juegoClicks';
   static const String clicker = '/clicker';
   static const String juegoCartas = '/juegoCartas';
+  static const String formulario = '/formulario';
 
   // Mapa de rutas a pantallas
   static final Map<String, Widget Function(BuildContext)> _routes = {
@@ -28,6 +29,7 @@ class AppRoutes {
     juegoClicks: (_) => const JuegoClicks(),
     clicker: (_) => const Clicker(),
     juegoCartas: (_) => const JuegoCartas(),
+    formulario: (_) => const Formulario(),
   };
 
   // Función para generar las rutas

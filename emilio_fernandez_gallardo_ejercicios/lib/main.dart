@@ -45,6 +45,7 @@ class Principal extends StatelessWidget {
         '/juegoClicks': (context) => const JuegoClicks(),
         '/clicker': (context) => const Clicker(),
         '/juegoCartas': (context) => const JuegoCartas(),
+        '/formulario': (context) => const Formulario(),
       },
     );
   }

@@ -4,6 +4,7 @@ export 'enlace2.dart';
 export 'enlace3.dart';
 export 'enlace4.dart';
 export 'enlace5.dart';
+export 'formulario.dart';
 export 'drawer.dart';
 export 'juego_cartas.dart';
 export 'instagram.dart';
