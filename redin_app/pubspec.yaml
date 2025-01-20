@@ -21,6 +21,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
+    - assets/images/redin_logo.png
     - assets/images/home/home_background.png
     - assets/images/home/welcomeCasino.png
     - assets/images/home/roulette.png

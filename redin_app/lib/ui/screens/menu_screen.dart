@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:redin_app/ui/screens/roulette_screen.dart';
 import 'package:redin_app/ui/widgets/background_music.dart';
+import 'package:redin_app/ui/widgets/coins_display.dart';
 import '../widgets/menu_button.dart';
 import '../widgets/animated_route.dart';
 
@@ -12,6 +13,8 @@ class MenuScreen extends StatefulWidget {
 }
 
 class _MenuScreenState extends State<MenuScreen> {
+  int coins = 2000;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,8 +40,17 @@ class _MenuScreenState extends State<MenuScreen> {
               ),
             ),
           ),
+          // Agrega el CoinDisplay encima de los botones
           Positioned(
-            bottom: 150,
+            bottom: 500, // Ajusta esta posición según lo que necesites
+            left: 0,
+            right: 0,
+            child: Center(
+              child: CoinDisplay(coins: coins),
+            ),
+          ),
+          Positioned(
+            bottom: 225,
             left: 0,
             right: 0,
             child: Column(
