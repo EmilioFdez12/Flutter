@@ -10,6 +10,7 @@ class MenuButton extends StatelessWidget {
   final Offset imageOffset;
   final double? imageSize;
   final Color textColor;
+  final double? lineHeight; // Nueva propiedad
 
   const MenuButton({
     super.key,
@@ -21,6 +22,7 @@ class MenuButton extends StatelessWidget {
     this.imageOffset = Offset.zero,
     this.imageSize,
     this.textColor = Colors.white,
+    this.lineHeight, // Inicializamos
   });
 
   @override
@@ -65,7 +67,9 @@ class MenuButton extends StatelessWidget {
                   fontSize: 42,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 2.0,
+                  height: lineHeight, // Aplicamos el line height aquí
                 ),
+                textAlign: TextAlign.center, // Centrado en caso de múltiples líneas
               ),
             ),
           ],

@@ -10,6 +10,7 @@ dependencies:
   audioplayers: ^6.1.0
   flutter:
     sdk: flutter
+  flutter_hooks: ^0.20.5
   google_fonts: ^6.2.1
 
 dev_dependencies:
@@ -20,12 +21,13 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/images/home_background.png
-    - assets/images/welcomeCasino.png
-    - assets/images/roulette.png
-    - assets/images/blackjack.png
-    - assets/images/slots.png
-    - assets/images/horses.png
-
-    - audio/casino.ogg
-    - audio/casino.mp3
+    - assets/images/home/home_background.png
+    - assets/images/home/welcomeCasino.png
+    - assets/images/home/roulette.png
+    - assets/images/home/blackjack.png
+    - assets/images/home/luckyWheel.png
+    - assets/images/home/slots.png
+    - assets/images/home/horses.png
+    - assets/audio/casino.ogg
+    - assets/audio/casino.mp3
+    - assets/images/roulette/ruleta.webp
