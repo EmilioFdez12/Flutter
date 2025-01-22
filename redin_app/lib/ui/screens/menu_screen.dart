@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:redin_app/ui/screens/roulette_screen.dart';
-import 'package:redin_app/ui/widgets/background_music.dart';
+import 'package:redin_app/ui/widgets/animated_route.dart';
 import 'package:redin_app/ui/widgets/coins_display.dart';
-import '../widgets/menu_button.dart';
-import '../widgets/animated_route.dart';
+import 'package:redin_app/ui/widgets/menu_button.dart';
+import 'package:redin_app/utils/database/balance.dart';
+import 'package:redin_app/utils/music/music_manager.dart';
 
 class MenuScreen extends StatefulWidget {
   const MenuScreen({super.key});
@@ -13,44 +15,59 @@ class MenuScreen extends StatefulWidget {
 }
 
 class _MenuScreenState extends State<MenuScreen> {
-  int coins = 2000;
+  late AudioManager audioManager;
+
+  @override
+  void initState() {
+    super.initState();
+    audioManager = AudioManager();
+    audioManager.playBackgroundMusic();
+  }
+
+  @override
+  void dispose() {
+    audioManager.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final balanceProvider = Provider.of<BalanceProvider>(context);
+    final screenSize = MediaQuery.of(context).size;
+
     return Scaffold(
       body: Stack(
         children: [
-          const BackgroundMusic(),
           // Background image
           Image.asset(
             'assets/images/home/home_background.png',
             fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
+            width: screenSize.width,
+            height: screenSize.height,
           ),
           Positioned(
-            top: 100,
+            top: screenSize.height * 0.1,
             left: 0,
             right: 0,
             child: Center(
               child: Image.asset(
                 'assets/images/home/welcomeCasino.png',
-                height: 200,
-                fit: BoxFit.fill,
+                height: screenSize.height * 0.2,
+                fit: BoxFit.contain,
               ),
             ),
           ),
-          // Agrega el CoinDisplay encima de los botones
+          // Coin Display
           Positioned(
-            bottom: 500, // Ajusta esta posición según lo que necesites
+            bottom: screenSize.height * 0.55,
             left: 0,
             right: 0,
             child: Center(
-              child: CoinDisplay(coins: coins),
+              child: CoinDisplay(coins: balanceProvider.balance),
             ),
           ),
           Positioned(
-            bottom: 225,
+            bottom: screenSize.height * 0.15,
             left: 0,
             right: 0,
             child: Column(
@@ -59,50 +76,56 @@ class _MenuScreenState extends State<MenuScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    MenuButton(
-                      text: 'ROULETTE',
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          AnimatedRoute(page: const RouletteScreen()),
-                        );
-                      },
-                      imagePath: 'assets/images/home/roulette.png',
-                      imageOffset: const Offset(0, 0),
-                      imageSize: 150,
+                    SizedBox(
+                      width: screenSize.width * 0.4,
+                      child: MenuButton(
+                        text: 'ROULETTE',
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            AnimatedRoute(page: const RouletteScreen()),
+                          );
+                        },
+                        imagePath: 'assets/images/home/roulette.png',
+                        imageSize: screenSize.width * 0.4,
+                      ),
                     ),
-                    const SizedBox(width: 20),
-                    MenuButton(
-                      text: 'BLACKJACK',
-                      onPressed: () {
-                        // Una vez implementes BlackJackScreen, puedes usar AnimatedRoute aquí también
-                      },
-                      imagePath: 'assets/images/home/blackjack.png',
-                      imageOffset: const Offset(0, -28),
-                      imageSize: 150,
+                    SizedBox(width: screenSize.width * 0.05),
+                    SizedBox(
+                      width: screenSize.width * 0.4,
+                      child: MenuButton(
+                        text: 'BLACKJACK',
+                        onPressed: () {},
+                        imagePath: 'assets/images/home/blackjack.png',
+                        imageSize: screenSize.width * 0.45,
+                        imageOffset: Offset(0, screenSize.height * -0.038),
+                      ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: screenSize.height * 0.03),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    MenuButton(
-                      text: 'HORSE',
-                      onPressed: () {
-                        // Lo mismo para HorseScreen
-                      },
-                      imagePath: 'assets/images/home/horses.png',
+                    SizedBox(
+                      width: screenSize.width * 0.4,
+                      child: MenuButton(
+                        text: 'HORSE',
+                        onPressed: () {},
+                        imagePath: 'assets/images/home/horses.png',
+                        imageSize: screenSize.width * 0.3,
+                      ),
                     ),
-                    const SizedBox(width: 20),
-                    MenuButton(
-                      text: 'LUCKY \nWHEEL',
-                      lineHeight: 0.6,
-                      onPressed: () {
-                        // Y para LuckyWheelScreen
-                      },
-                      imagePath: 'assets/images/home/luckyWheel.png',
-                      imageSize: 125,
+                    SizedBox(width: screenSize.width * 0.05),
+                    SizedBox(
+                      width: screenSize.width * 0.4,
+                      child: MenuButton(
+                        text: 'LUCKY \nWHEEL',
+                        onPressed: () {},
+                        imagePath: 'assets/images/home/luckyWheel.png',
+                        imageSize: screenSize.width * 0.3,
+                        lineHeight: 1, // Custom line height
+                      ),
                     ),
                   ],
                 ),

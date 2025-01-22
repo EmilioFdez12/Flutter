@@ -19,12 +19,12 @@ class NumberGrid extends StatelessWidget {
     return GestureDetector(
       onTap: onClose, // Close grid if tapped outside
       child: GridView.builder(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 48),
         shrinkWrap: true,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 6,
-          crossAxisSpacing: 8,
-          mainAxisSpacing: 8,
+          crossAxisSpacing: 4,
+          mainAxisSpacing: 4,
         ),
         itemCount: end - start + 1,
         itemBuilder: (context, index) {

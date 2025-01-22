@@ -1,9 +1,12 @@
+// roulette_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:provider/provider.dart';
+import 'package:redin_app/logic/roulette_game_logic.dart';
 import 'package:redin_app/logic/roulette_logic.dart';
-import 'package:redin_app/ui/widgets/roulettebuttons.dart';
-import 'package:redin_app/ui/widgets/number_grid.dart';
-import 'package:redin_app/ui/widgets/yellowbutton.dart';
+import 'package:redin_app/ui/ui.dart';
+import 'package:redin_app/utils/database/balance.dart';
+import 'package:redin_app/utils/music/music_manager.dart';
 
 class RouletteScreen extends HookWidget {
   const RouletteScreen({super.key});
@@ -13,32 +16,49 @@ class RouletteScreen extends HookWidget {
     final rotation = useState(0.0);
     final isSpinning = useState(false);
     final resultNumber = useState("");
-    final currentPage = useState(1); // 1 for 1-16, 2 for 17-36
-    final showGrid = useState(false); // Track grid visibility
+    final currentPage = useState(1);
+    final showGrid = useState(false);
+    final coinValue = useState(0);
+    final selectedBet = useState<String?>(null);
+    final balanceProvider = Provider.of<BalanceProvider>(context);
+    final audioManager = AudioManager();
 
-    void spinWheel() {
-      if (!isSpinning.value) {
-        rotation.value = RouletteLogic.spinWheel(rotation.value);
-        isSpinning.value = true;
-        resultNumber.value = "";
-
-        Future.delayed(const Duration(seconds: 6), () {
-          final result = RouletteLogic.calculateResult(rotation.value);
-          resultNumber.value = result;
-          isSpinning.value = false;
-        });
-      }
-    }
+    // Inicializamos la lógica del juego
+    final gameLogic = RouletteGameLogic(
+      rotation: rotation,
+      isSpinning: isSpinning,
+      resultNumber: resultNumber,
+      coinValue: coinValue,
+      selectedBet: selectedBet,
+      balanceProvider: balanceProvider,
+      audioManager: audioManager,
+    );
 
     void toggleGrid() {
-      showGrid.value = !showGrid.value; // Toggle the grid visibility
+      showGrid.value = !showGrid.value;
     }
 
     void closeGrid() {
-      showGrid.value = false; // Close the grid when clicking outside
+      showGrid.value = false;
+    }
+
+    // Obtener el tamaño de la pantalla
+    final screenSize = MediaQuery.of(context).size;
+    final screenWidth = screenSize.width;
+    final screenHeight = screenSize.height;
+
+    // Ajustar el tamaño del contenedor de la ruleta y los botones dinámicamente
+    final wheelSize = screenWidth * 0.7;
+    final fontSize = screenWidth * 0.15;
+
+    // Función para manejar cambios en el valor de las monedas
+    void onCoinChanged(int value) {
+      coinValue.value = value;
+      print('Monedas seleccionadas: $value');
     }
 
     return Scaffold(
+      // Si se pulsa fuera del grid se cierra
       body: GestureDetector(
         onTap: () {
           if (showGrid.value) {
@@ -47,16 +67,23 @@ class RouletteScreen extends HookWidget {
         },
         child: Stack(
           children: [
+            // Fondo de la pantalla
             Image.asset(
               'assets/images/home/home_background.png',
               fit: BoxFit.cover,
               width: double.infinity,
               height: double.infinity,
             ),
+            // Saldo en la parte superior izquierda
+            Positioned(
+              top: screenHeight * 0.08,
+              left: screenWidth * 0.1,
+              child: CoinDisplay(coins: balanceProvider.balance),
+            ),
+            // Ruleta
             Center(
               child: Padding(
-                padding: const EdgeInsets.only(
-                    bottom: 150.0), // Ajusta la distancia hacia arriba
+                padding: EdgeInsets.only(bottom: screenHeight * 0.32),
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
@@ -65,12 +92,11 @@ class RouletteScreen extends HookWidget {
                       duration: const Duration(milliseconds: 6000),
                       curve: Curves.easeOut,
                       child: Container(
-                        width: 300,
-                        height: 300,
+                        width: wheelSize,
+                        height: wheelSize,
                         decoration: const BoxDecoration(
                           image: DecorationImage(
-                            image: AssetImage(
-                                'assets/images/roulette/ruleta.webp'),
+                            image: AssetImage('assets/images/roulette/ruleta.webp'),
                             fit: BoxFit.cover,
                           ),
                           shape: BoxShape.circle,
@@ -83,7 +109,7 @@ class RouletteScreen extends HookWidget {
                           Text(
                             resultNumber.value,
                             style: TextStyle(
-                              fontSize: 64,
+                              fontSize: fontSize,
                               fontWeight: FontWeight.bold,
                               foreground: Paint()
                                 ..style = PaintingStyle.stroke
@@ -94,11 +120,9 @@ class RouletteScreen extends HookWidget {
                           Text(
                             resultNumber.value,
                             style: TextStyle(
-                              fontSize: 64,
+                              fontSize: fontSize,
                               fontWeight: FontWeight.bold,
-                              color: RouletteLogic
-                                      .numberColors[resultNumber.value] ??
-                                  Colors.white,
+                              color: RouletteLogic.numberColors[resultNumber.value] ?? Colors.white,
                             ),
                           ),
                         ],
@@ -107,31 +131,26 @@ class RouletteScreen extends HookWidget {
                 ),
               ),
             ),
+            // Botón SPIN
             Positioned(
-              bottom: 72,
+              bottom: screenHeight * 0.08,
               left: 0,
               right: 0,
               child: Center(
                 child: YellowButton(
                   label: 'SPIN',
-                  onPressed: spinWheel, // Ejecuta la función spinWheel
+                  onPressed: gameLogic.spinWheel, // Usamos la lógica del juego
                 ),
               ),
             ),
+            // Botones de apuestas y grid
             Positioned(
-              bottom: 164,
+              bottom: screenHeight * 0.28,
               left: 0,
               right: 0,
               child: Column(
                 children: [
-                  ElevatedButton(
-                    onPressed: toggleGrid,
-                    child: const Text('Table'),
-                    
-                  ),
-                  const SizedBox(height: 16),
-                  if (!showGrid
-                      .value)
+                  if (!showGrid.value)
                     Column(
                       children: [
                         Row(
@@ -141,36 +160,40 @@ class RouletteScreen extends HookWidget {
                               color: const Color.fromARGB(255, 255, 255, 255),
                               label: 'ODD',
                               onPressed: () {
-                                print('Botón odd presionado');
+                                selectedBet.value = 'ODD';
+                                print('Apuesta seleccionada: ODD');
                               },
                             ),
-                            const SizedBox(width: 8),
+                            SizedBox(width: screenWidth * 0.02),
                             CustomSquareButton(
                               color: Colors.red,
                               label: '',
                               onPressed: () {
-                                print('Botón rojo presionado');
+                                selectedBet.value = 'RED';
+                                print('Apuesta seleccionada: RED');
                               },
                             ),
-                            const SizedBox(width: 8),
+                            SizedBox(width: screenWidth * 0.02),
                             CustomSquareButton(
                               color: Colors.black,
                               label: '',
                               onPressed: () {
-                                print('Botón negro presionado');
+                                selectedBet.value = 'BLACK';
+                                print('Apuesta seleccionada: BLACK');
                               },
                             ),
-                            const SizedBox(width: 8),
+                            SizedBox(width: screenWidth * 0.02),
                             CustomSquareButton(
                               color: const Color.fromARGB(255, 255, 255, 255),
                               label: 'EVEN',
                               onPressed: () {
-                                print('Botón Even presionado');
+                                selectedBet.value = 'EVEN';
+                                print('Apuesta seleccionada: EVEN');
                               },
                             ),
                           ],
                         ),
-                        const SizedBox(height: 8),
+                        SizedBox(height: screenHeight * 0.02),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -178,30 +201,39 @@ class RouletteScreen extends HookWidget {
                               color: const Color.fromARGB(255, 255, 255, 255),
                               label: '1-18',
                               onPressed: () {
-                                print('Botón 1-18 presionado');
+                                selectedBet.value = '1-18';
+                                print('Apuesta seleccionada: 1-18');
                               },
                             ),
-                            const SizedBox(width: 8),
+                            SizedBox(width: screenWidth * 0.02),
                             CustomSquareButton(
                               color: Colors.green,
                               label: '0',
                               onPressed: () {
-                                print('Botón 0 presionado');
+                                selectedBet.value = 'GREEN';
+                                print('Apuesta seleccionada: GREEN');
                               },
                             ),
-                            const SizedBox(width: 8),
+                            SizedBox(width: screenWidth * 0.02),
                             CustomSquareButton(
                               color: const Color.fromARGB(255, 255, 255, 255),
                               label: '19-36',
                               onPressed: () {
-                                print('Botón 19-36 presionado');
+                                selectedBet.value = '19-36';
+                                print('Apuesta seleccionada: 19-36');
                               },
+                            ),
+                            SizedBox(width: screenWidth * 0.02),
+                            CustomSquareButton(
+                              color: Colors.blue, // Color personalizado para el botón "Table"
+                              label: 'Table',
+                              onPressed: toggleGrid,
                             ),
                           ],
                         ),
                       ],
                     ),
-                  if (showGrid.value) // Mostrar grid cuando está activo
+                  if (showGrid.value)
                     Column(
                       children: [
                         Row(
@@ -211,7 +243,7 @@ class RouletteScreen extends HookWidget {
                               onPressed: () => currentPage.value = 1,
                               child: const Text('1-18'),
                             ),
-                            const SizedBox(width: 8),
+                            SizedBox(width: screenWidth * 0.02),
                             ElevatedButton(
                               onPressed: () => currentPage.value = 2,
                               child: const Text('19-36'),
@@ -219,20 +251,31 @@ class RouletteScreen extends HookWidget {
                           ],
                         ),
                         SizedBox(
-                          height: 200,
+                          height: screenHeight * 0.18,
                           child: NumberGrid(
                             start: currentPage.value == 1 ? 1 : 19,
                             end: currentPage.value == 1 ? 18 : 36,
                             onNumberSelected: (number) {
                               print('Número seleccionado: $number');
                             },
-                            onClose:
-                                closeGrid, // Close the grid when clicking outside
+                            onClose: closeGrid,
                           ),
                         ),
                       ],
                     ),
                 ],
+              ),
+            ),
+            // CoinSelector en la parte inferior
+            Positioned(
+              bottom: screenHeight * 0.20,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: CoinSelector(
+                  coinValue: coinValue.value,
+                  onCoinChanged: onCoinChanged,
+                ),
               ),
             ),
           ],

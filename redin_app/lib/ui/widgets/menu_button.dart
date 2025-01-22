@@ -10,31 +10,37 @@ class MenuButton extends StatelessWidget {
   final Offset imageOffset;
   final double? imageSize;
   final Color textColor;
-  final double? lineHeight; // Nueva propiedad
+  final double? lineHeight;
 
   const MenuButton({
     super.key,
     required this.text,
     required this.onPressed,
-    this.width = 150,
-    this.height = 100,
+    this.width = 120,
+    this.height = 120,
     required this.imagePath,
     this.imageOffset = Offset.zero,
     this.imageSize,
-    this.textColor = Colors.white,
-    this.lineHeight, // Inicializamos
+    this.textColor = const Color.fromARGB(255, 224, 255, 215),
+    this.lineHeight,
   });
 
   @override
   Widget build(BuildContext context) {
+    // Obtener el ancho de la pantalla
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    // Calcular el tamaño del texto en función del ancho de la pantalla
+    final textSize = screenWidth * 0.05; // Ajusta este valor según tus necesidades
+
     return GestureDetector(
       onTap: onPressed,
       child: Container(
         width: width,
         height: height,
         decoration: BoxDecoration(
-          color: const Color(0xFF121212),
-          borderRadius: BorderRadius.circular(5),
+          color: const Color(0xFF000000),
+          borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: Colors.white,
             width: 2,
@@ -62,14 +68,13 @@ class MenuButton extends StatelessWidget {
             Center(
               child: Text(
                 text,
-                style: GoogleFonts.jomhuria(
+                style: GoogleFonts.poppins(
                   color: textColor,
-                  fontSize: 42,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 2.0,
-                  height: lineHeight, // Aplicamos el line height aquí
+                  fontSize: textSize * 1.1,
+                  fontWeight: FontWeight.w900,
+                  height: lineHeight,
                 ),
-                textAlign: TextAlign.center, // Centrado en caso de múltiples líneas
+                textAlign: TextAlign.center,
               ),
             ),
           ],

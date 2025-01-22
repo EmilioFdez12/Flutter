@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CustomSquareButton extends StatelessWidget {
   final Color color;
@@ -18,17 +19,17 @@ class CustomSquareButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: color,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(4), // Esquinas ligeramente redondeadas
+          borderRadius: BorderRadius.circular(12), // Esquinas ligeramente redondeadas
         ),
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 18),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
       ),
       onPressed: onPressed,
       child: Text(
         label,
-        style: const TextStyle(
+        style: GoogleFonts.poppins(
           color: Colors.black,
           fontSize: 24,
-          fontWeight: FontWeight.bold,
+          fontWeight: FontWeight.w700,
         ),
       ),
     );
