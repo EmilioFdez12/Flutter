@@ -94,11 +94,12 @@ class _MenuScreenState extends State<MenuScreen> {
                     SizedBox(
                       width: screenSize.width * 0.4,
                       child: MenuButton(
-                        text: 'BLACKJACK',
+                        text: 'BLACK\nJACK',
                         onPressed: () {},
                         imagePath: 'assets/images/home/blackjack.png',
                         imageSize: screenSize.width * 0.45,
                         imageOffset: Offset(0, screenSize.height * -0.038),
+                        lineHeight: 1,
                       ),
                     ),
                   ],
@@ -120,11 +121,11 @@ class _MenuScreenState extends State<MenuScreen> {
                     SizedBox(
                       width: screenSize.width * 0.4,
                       child: MenuButton(
-                        text: 'LUCKY \nWHEEL',
+                        text: 'LUCKY\nWHEEL',
                         onPressed: () {},
                         imagePath: 'assets/images/home/luckyWheel.png',
                         imageSize: screenSize.width * 0.3,
-                        lineHeight: 1, // Custom line height
+                        lineHeight: 1,
                       ),
                     ),
                   ],

@@ -83,7 +83,7 @@ class RouletteScreen extends HookWidget {
             // Ruleta
             Center(
               child: Padding(
-                padding: EdgeInsets.only(bottom: screenHeight * 0.32),
+                padding: EdgeInsets.only(bottom: screenHeight * 0.29),
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
@@ -137,7 +137,7 @@ class RouletteScreen extends HookWidget {
               left: 0,
               right: 0,
               child: Center(
-                child: YellowButton(
+                child: SpinButton(
                   label: 'SPIN',
                   onPressed: gameLogic.spinWheel, // Usamos la lógica del juego
                 ),

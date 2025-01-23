@@ -31,7 +31,7 @@ class MenuButton extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
 
     // Calcular el tamaño del texto en función del ancho de la pantalla
-    final textSize = screenWidth * 0.05; // Ajusta este valor según tus necesidades
+    final textSize = screenWidth * 0.056; // Ajusta este valor según tus necesidades
 
     return GestureDetector(
       onTap: onPressed,
@@ -70,7 +70,7 @@ class MenuButton extends StatelessWidget {
                 text,
                 style: GoogleFonts.poppins(
                   color: textColor,
-                  fontSize: textSize * 1.1,
+                  fontSize: textSize,
                   fontWeight: FontWeight.w900,
                   height: lineHeight,
                 ),
