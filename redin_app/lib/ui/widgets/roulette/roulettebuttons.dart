@@ -15,25 +15,20 @@ class CustomSquareButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Obtener el tamaño de la pantalla
+    // Obtenemos el tamaño de la pantalla
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
-    // Ajustar el tamaño de la fuente en función del ancho de la pantalla
     final fontSize = screenWidth * 0.035;
-
-    // Ajustar el padding en función del ancho y alto de la pantalla
-    final verticalPadding = screenHeight * 0.015; 
-    final horizontalPadding = screenWidth * 0.03; 
-
-    // Ajustar el radio de las esquinas en función del ancho de la pantalla
+    final verticalPadding = screenHeight * 0.018; 
+    final horizontalPadding = screenWidth * 0.05; 
     final borderRadius = screenWidth * 0.03; 
 
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         backgroundColor: color,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(borderRadius), // Esquinas redondeadas dinámicas
+          borderRadius: BorderRadius.circular(borderRadius),
         ),
         padding: EdgeInsets.symmetric(
           vertical: verticalPadding,

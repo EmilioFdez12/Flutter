@@ -28,24 +28,21 @@ static const Map<String, Color> numberColors = {
 
   static final double sectorAngle = 360.0 / numbers.length;
 
-  /// Genera la rotación total incluyendo giros completos y un extra aleatorio
+  /// Generamos la rotación total incluyendo giros completos y un extra aleatorio
   static double spinWheel(double currentRotation) {
     final randomExtraRotation = Random().nextInt(360);
     return currentRotation + 1440 + randomExtraRotation; // Giros completos + aleatorio
   }
 
-  /// Calcula el número resultante basado en el ángulo final
+  /// Calculamos el número resultante basado en el ángulo final
   static String calculateResult(double finalRotation) {
-    // Normaliza el ángulo a un rango de 0-360
     final normalizedAngle = finalRotation % 360.0;
 
-    // Ajusta para que el 0 esté en la parte superior
+    // El 0 esta en la parte de arriba
     final adjustedAngle = (360.0 - normalizedAngle) % 360.0;
-
-    // Calcula el índice del sector basado en el ángulo ajustado
     final index = ((adjustedAngle + sectorAngle / 2) / sectorAngle).floor() % numbers.length;
 
-    // Devuelve el número correspondiente
+    // Devuelvemos el número
     return numbers[index];
   }
 }

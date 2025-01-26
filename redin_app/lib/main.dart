@@ -7,7 +7,7 @@ import 'package:redin_app/utils/database/balance.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Configurar la orientación preferida a vertical
+  // Solo orientación vertical
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,  
     DeviceOrientation.portraitDown,
@@ -16,7 +16,7 @@ void main() {
   // Configuracion de la barra de estado
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
-      statusBarColor: Color.fromARGB(255, 12, 12, 12),
+      statusBarColor: Color(0xFF0C0C0C),
       statusBarIconBrightness: Brightness.light,
     ),
   );

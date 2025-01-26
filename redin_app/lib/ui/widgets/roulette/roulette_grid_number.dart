@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class NumberGrid extends StatelessWidget {
   final int start;
   final int end;
+  final Set<int> selectedNumbers;
   final Function(int) onNumberSelected;
   final VoidCallback onClose;
 
@@ -10,39 +11,46 @@ class NumberGrid extends StatelessWidget {
     super.key,
     required this.start,
     required this.end,
+    required this.selectedNumbers,
     required this.onNumberSelected,
     required this.onClose,
   });
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final horizontalPadding = screenWidth * 0.15;
+
     return GestureDetector(
-      onTap: onClose, // Close grid if tapped outside
+      onTap: onClose,
       child: GridView.builder(
-        padding: const EdgeInsets.symmetric(horizontal: 48),
+        padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
         shrinkWrap: true,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 6,
           crossAxisSpacing: 4,
           mainAxisSpacing: 4,
+          childAspectRatio: 1,
         ),
         itemCount: end - start + 1,
         itemBuilder: (context, index) {
           final number = start + index;
+          final isSelected = selectedNumbers.contains(number);
+
           return GestureDetector(
             onTap: () => onNumberSelected(number),
             child: Container(
               alignment: Alignment.center,
-              decoration: const BoxDecoration(
-                color: Colors.black, // Black background for all numbers
-                borderRadius: BorderRadius.zero, // Keep the square shape
+              decoration: BoxDecoration(
+                color: isSelected ? Colors.white : Colors.black,
+                borderRadius: BorderRadius.zero,
               ),
               child: Text(
                 '$number',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white, // White text color for numbers
+                  color: isSelected ? Colors.black : Colors.white,
                 ),
               ),
             ),

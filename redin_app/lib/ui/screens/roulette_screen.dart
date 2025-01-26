@@ -1,9 +1,8 @@
-// roulette_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:provider/provider.dart';
-import 'package:redin_app/logic/roulette_game_logic.dart';
-import 'package:redin_app/logic/roulette_logic.dart';
+import 'package:redin_app/logic/roulette/roulette_game_logic.dart';
+import 'package:redin_app/logic/roulette/roulette_logic.dart';
 import 'package:redin_app/ui/ui.dart';
 import 'package:redin_app/utils/database/balance.dart';
 import 'package:redin_app/utils/music/music_manager.dart';
@@ -20,6 +19,7 @@ class RouletteScreen extends HookWidget {
     final showGrid = useState(false);
     final coinValue = useState(0);
     final selectedBet = useState<String?>(null);
+    final selectedNumbers = useState<Set<int>>({});
     final balanceProvider = Provider.of<BalanceProvider>(context);
     final audioManager = AudioManager();
 
@@ -30,6 +30,7 @@ class RouletteScreen extends HookWidget {
       resultNumber: resultNumber,
       coinValue: coinValue,
       selectedBet: selectedBet,
+      selectedNumbers: selectedNumbers,
       balanceProvider: balanceProvider,
       audioManager: audioManager,
     );
@@ -42,16 +43,16 @@ class RouletteScreen extends HookWidget {
       showGrid.value = false;
     }
 
-    // Obtener el tamaño de la pantalla
+    // Obtenemos el tamaño de la pantalla
     final screenSize = MediaQuery.of(context).size;
     final screenWidth = screenSize.width;
     final screenHeight = screenSize.height;
 
-    // Ajustar el tamaño del contenedor de la ruleta y los botones dinámicamente
+    // Ajustamos el tamaño del contenedor de la ruleta y los botones 
     final wheelSize = screenWidth * 0.7;
     final fontSize = screenWidth * 0.15;
 
-    // Función para manejar cambios en el valor de las monedas
+    // Función para manejar los cambios en el valor de las monedas
     void onCoinChanged(int value) {
       coinValue.value = value;
       print('Monedas seleccionadas: $value');
@@ -67,14 +68,12 @@ class RouletteScreen extends HookWidget {
         },
         child: Stack(
           children: [
-            // Fondo de la pantalla
             Image.asset(
               'assets/images/home/home_background.png',
               fit: BoxFit.cover,
               width: double.infinity,
               height: double.infinity,
             ),
-            // Saldo en la parte superior izquierda
             Positioned(
               top: screenHeight * 0.08,
               left: screenWidth * 0.1,
@@ -83,7 +82,7 @@ class RouletteScreen extends HookWidget {
             // Ruleta
             Center(
               child: Padding(
-                padding: EdgeInsets.only(bottom: screenHeight * 0.29),
+                padding: EdgeInsets.only(bottom: screenHeight * 0.35),
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
@@ -96,7 +95,8 @@ class RouletteScreen extends HookWidget {
                         height: wheelSize,
                         decoration: const BoxDecoration(
                           image: DecorationImage(
-                            image: AssetImage('assets/images/roulette/ruleta.webp'),
+                            image: AssetImage(
+                                'assets/images/roulette/ruleta.webp'),
                             fit: BoxFit.cover,
                           ),
                           shape: BoxShape.circle,
@@ -122,7 +122,9 @@ class RouletteScreen extends HookWidget {
                             style: TextStyle(
                               fontSize: fontSize,
                               fontWeight: FontWeight.bold,
-                              color: RouletteLogic.numberColors[resultNumber.value] ?? Colors.white,
+                              color: RouletteLogic
+                                      .numberColors[resultNumber.value] ??
+                                  Colors.white,
                             ),
                           ),
                         ],
@@ -131,7 +133,6 @@ class RouletteScreen extends HookWidget {
                 ),
               ),
             ),
-            // Botón SPIN
             Positioned(
               bottom: screenHeight * 0.08,
               left: 0,
@@ -139,11 +140,10 @@ class RouletteScreen extends HookWidget {
               child: Center(
                 child: SpinButton(
                   label: 'SPIN',
-                  onPressed: gameLogic.spinWheel, // Usamos la lógica del juego
+                  onPressed: gameLogic.spinWheel,
                 ),
               ),
             ),
-            // Botones de apuestas y grid
             Positioned(
               bottom: screenHeight * 0.28,
               left: 0,
@@ -225,7 +225,8 @@ class RouletteScreen extends HookWidget {
                             ),
                             SizedBox(width: screenWidth * 0.02),
                             CustomSquareButton(
-                              color: Colors.blue, // Color personalizado para el botón "Table"
+                              color: Colors
+                                  .blue,
                               label: 'Table',
                               onPressed: toggleGrid,
                             ),
@@ -251,11 +252,23 @@ class RouletteScreen extends HookWidget {
                           ],
                         ),
                         SizedBox(
-                          height: screenHeight * 0.18,
+                          height: screenHeight * 0.16,
                           child: NumberGrid(
                             start: currentPage.value == 1 ? 1 : 19,
                             end: currentPage.value == 1 ? 18 : 36,
+                            selectedNumbers: selectedNumbers
+                                .value,
                             onNumberSelected: (number) {
+                              // Actualizamos los números seleccionados
+                              if (selectedNumbers.value.contains(number)) {
+                                selectedNumbers.value =
+                                    Set<int>.from(selectedNumbers.value)
+                                      ..remove(number); // Deseleccionar
+                              } else if (selectedNumbers.value.length < 4) {
+                                selectedNumbers.value =
+                                    Set<int>.from(selectedNumbers.value)
+                                      ..add(number); // Seleccionar
+                              }
                               print('Número seleccionado: $number');
                             },
                             onClose: closeGrid,
@@ -266,9 +279,8 @@ class RouletteScreen extends HookWidget {
                 ],
               ),
             ),
-            // CoinSelector en la parte inferior
             Positioned(
-              bottom: screenHeight * 0.20,
+              bottom: screenHeight * 0.17,
               left: 0,
               right: 0,
               child: Center(

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:redin_app/ui/screens/horse_screen.dart';
 import 'package:redin_app/ui/screens/roulette_screen.dart';
 import 'package:redin_app/ui/widgets/animated_route.dart';
-import 'package:redin_app/ui/widgets/coins_display.dart';
+import 'package:redin_app/ui/widgets/coins/coins_display.dart';
 import 'package:redin_app/ui/widgets/menu_button.dart';
 import 'package:redin_app/utils/database/balance.dart';
 import 'package:redin_app/utils/music/music_manager.dart';
@@ -20,12 +21,14 @@ class _MenuScreenState extends State<MenuScreen> {
   @override
   void initState() {
     super.initState();
-    audioManager = AudioManager();
-    audioManager.playBackgroundMusic();
+    audioManager = AudioManager(); 
+    // Reproducimos la música de fondo
+    audioManager.playBackgroundMusic(); 
   }
 
   @override
   void dispose() {
+    // Limpiamos el audioManager
     audioManager.dispose();
     super.dispose();
   }
@@ -38,7 +41,6 @@ class _MenuScreenState extends State<MenuScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          // Background image
           Image.asset(
             'assets/images/home/home_background.png',
             fit: BoxFit.cover,
@@ -57,7 +59,6 @@ class _MenuScreenState extends State<MenuScreen> {
               ),
             ),
           ),
-          // Coin Display
           Positioned(
             bottom: screenSize.height * 0.55,
             left: 0,
@@ -86,22 +87,37 @@ class _MenuScreenState extends State<MenuScreen> {
                             AnimatedRoute(page: const RouletteScreen()),
                           );
                         },
-                        imagePath: 'assets/images/home/roulette.png',
-                        imageSize: screenSize.width * 0.4,
+                        textColor: const Color(0xFFF44336),
+                        textShadow: [
+                          Shadow(
+                            color: Colors.red.withOpacity(0.5),
+                            blurRadius: 10,
+                          ),
+                        ],
+                        borderColor: Colors.red,
+                        boxShadowColor: Colors.red,
                       ),
                     ),
                     SizedBox(width: screenSize.width * 0.05),
+                    /*
                     SizedBox(
                       width: screenSize.width * 0.4,
                       child: MenuButton(
                         text: 'BLACK\nJACK',
                         onPressed: () {},
-                        imagePath: 'assets/images/home/blackjack.png',
-                        imageSize: screenSize.width * 0.45,
-                        imageOffset: Offset(0, screenSize.height * -0.038),
                         lineHeight: 1,
+                        textColor: Colors.green,
+                        textShadow: [
+                          Shadow(
+                            color: Colors.green.withOpacity(0.5),
+                            blurRadius: 10,
+                          ),
+                        ],
+                        borderColor: Colors.green,
+                        boxShadowColor: Colors.green,
                       ),
                     ),
+                    */
                   ],
                 ),
                 SizedBox(height: screenSize.height * 0.03),
@@ -112,22 +128,43 @@ class _MenuScreenState extends State<MenuScreen> {
                       width: screenSize.width * 0.4,
                       child: MenuButton(
                         text: 'HORSE',
-                        onPressed: () {},
-                        imagePath: 'assets/images/home/horses.png',
-                        imageSize: screenSize.width * 0.3,
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            AnimatedRoute(page: const HorseScreen()),
+                          );
+                        },
+                        textColor: Colors.blue,
+                        textShadow: [
+                          Shadow(
+                            color: Colors.blue.withOpacity(0.5),
+                            blurRadius: 10,
+                          ),
+                        ],
+                        borderColor: const Color(0xFF2196F3),
+                        boxShadowColor: Colors.blue,
                       ),
                     ),
                     SizedBox(width: screenSize.width * 0.05),
+                    /*
                     SizedBox(
                       width: screenSize.width * 0.4,
                       child: MenuButton(
                         text: 'LUCKY\nWHEEL',
                         onPressed: () {},
-                        imagePath: 'assets/images/home/luckyWheel.png',
-                        imageSize: screenSize.width * 0.3,
                         lineHeight: 1,
+                        textColor: Colors.yellow,
+                        textShadow: [
+                          Shadow(
+                            color: Colors.yellow.withOpacity(0.5),
+                            blurRadius: 10,
+                          ),
+                        ],
+                        borderColor: Colors.yellow,
+                        boxShadowColor: Colors.yellow,
                       ),
                     ),
+                    */
                   ],
                 ),
               ],

@@ -6,10 +6,10 @@ class MenuButton extends StatelessWidget {
   final VoidCallback onPressed;
   final double width;
   final double height;
-  final String imagePath;
-  final Offset imageOffset;
-  final double? imageSize;
   final Color textColor;
+  final List<Shadow> textShadow;
+  final Color borderColor;
+  final Color boxShadowColor;
   final double? lineHeight;
 
   const MenuButton({
@@ -18,20 +18,17 @@ class MenuButton extends StatelessWidget {
     required this.onPressed,
     this.width = 120,
     this.height = 120,
-    required this.imagePath,
-    this.imageOffset = Offset.zero,
-    this.imageSize,
-    this.textColor = const Color.fromARGB(255, 224, 255, 215),
+    this.textColor = Colors.white,
+    this.textShadow = const [],
+    this.borderColor = Colors.white,
+    this.boxShadowColor = Colors.white,
     this.lineHeight,
   });
 
   @override
   Widget build(BuildContext context) {
-    // Obtener el ancho de la pantalla
     final screenWidth = MediaQuery.of(context).size.width;
-
-    // Calcular el tamaño del texto en función del ancho de la pantalla
-    final textSize = screenWidth * 0.056; // Ajusta este valor según tus necesidades
+    final textSize = screenWidth * 0.056;
 
     return GestureDetector(
       onTap: onPressed,
@@ -42,42 +39,29 @@ class MenuButton extends StatelessWidget {
           color: const Color(0xFF000000),
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: Colors.white,
+            color: borderColor,
             width: 2,
           ),
-          boxShadow: const [
+          boxShadow: [
             BoxShadow(
-              color: Color.fromARGB(255, 0, 0, 0),
+              color: boxShadowColor,
               blurRadius: 10,
-              offset: Offset(0, 0),
+              offset: const Offset(0, 0),
             ),
           ],
         ),
-        child: Stack(
-          children: [
-            Positioned(
-              left: imageOffset.dx,
-              top: imageOffset.dy,
-              child: Image.asset(
-                imagePath,
-                width: imageSize ?? (width * 1),
-                height: imageSize ?? (height * 1),
-                fit: BoxFit.contain,
-              ),
+        child: Center(
+          child: Text(
+            text,
+            style: GoogleFonts.poppins(
+              color: textColor,
+              fontSize: textSize,
+              fontWeight: FontWeight.w900,
+              height: lineHeight,
+              shadows: textShadow,
             ),
-            Center(
-              child: Text(
-                text,
-                style: GoogleFonts.poppins(
-                  color: textColor,
-                  fontSize: textSize,
-                  fontWeight: FontWeight.w900,
-                  height: lineHeight,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ],
+            textAlign: TextAlign.center,
+          ),
         ),
       ),
     );

@@ -7,26 +7,20 @@ class CoinDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Obtener el tamaño de la pantalla
+    // Obtenemos el tamaño de la pantalla
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
-    // Ajustar el tamaño de la fuente en función del ancho de la pantalla
     final fontSize = screenWidth * 0.06; 
-
-    // Ajustar el padding en función del ancho de la pantalla
     final horizontalPadding = screenWidth * 0.05;
     final verticalPadding = screenHeight * 0.01;
-
-    // Ajustar el tamaño de la imagen en función del ancho de la pantalla
     final imageSize = screenWidth * 0.15;
 
     return Stack(
       clipBehavior:
-          Clip.none, // Permite que los widgets sobresalgan del área del Stack
+          Clip.none,
       alignment: Alignment.center,
       children: [
-        // Fondo con borde blanco
         DecoratedBox(
           decoration: BoxDecoration(
             gradient: const LinearGradient(
@@ -39,7 +33,7 @@ class CoinDisplay extends StatelessWidget {
             ),
             borderRadius: BorderRadius.circular(50),
             border: Border.all(
-              color: Colors.white,
+              color: const Color.fromARGB(150, 255, 255, 255),
               width: 2, // Grosor del borde
             ),
           ),
@@ -56,9 +50,8 @@ class CoinDisplay extends StatelessWidget {
             ),
           ),
         ),
-        // Imagen que sobresale
         Positioned(
-          left: -imageSize * 0.3, // Ajusta cuánto sobresale la imagen
+          left: -imageSize * 0.3,
           child: Image.asset(
             'assets/images/redin_logo.png',
             width: imageSize,

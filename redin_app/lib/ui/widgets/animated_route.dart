@@ -21,7 +21,7 @@ class AnimatedRoute extends PageRouteBuilder {
         );
 
   static Widget _buildTransitions(Animation<double> animation, Widget child) {
-    const begin = Offset(1.0, 0.0); // Transición de derecha a izquierda
+    const begin = Offset(1.0, 0.0);
     const end = Offset.zero;
     const curve = Curves.easeInOut;
 

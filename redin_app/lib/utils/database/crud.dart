@@ -36,18 +36,18 @@ class Crud {
       )
     ''');
 
-    // Insertar saldo inicial (opcional)
+    // Insertar saldo inicial
     await db.insert('balance', {'amount': 1000});
   }
 
-  // Obtener el saldo actual
+  // Metodo para sacar el saldo actual
   Future<int> getBalance() async {
     final db = await database;
     final result = await db.query('balance', limit: 1);
     return result.isNotEmpty ? result.first['amount'] as int : 0;
   }
 
-  // Actualizar el saldo
+  // Metodo para actualizar el saldo
   Future<void> updateBalance(int newBalance) async {
     final db = await database;
     await db.update(

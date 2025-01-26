@@ -1,7 +1,7 @@
 // roulette_game_logic.dart
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:redin_app/logic/roulette_logic.dart';
+import 'package:redin_app/logic/roulette/roulette_logic.dart';
 import 'package:redin_app/utils/database/balance.dart';
 import 'package:redin_app/utils/music/music_manager.dart';
 
@@ -11,6 +11,7 @@ class RouletteGameLogic {
   final ValueNotifier<String> resultNumber;
   final ValueNotifier<int> coinValue;
   final ValueNotifier<String?> selectedBet;
+  final ValueNotifier<Set<int>> selectedNumbers;
   final BalanceProvider balanceProvider;
   final AudioManager audioManager;
 
@@ -20,12 +21,13 @@ class RouletteGameLogic {
     required this.resultNumber,
     required this.coinValue,
     required this.selectedBet,
+    required this.selectedNumbers,
     required this.balanceProvider,
     required this.audioManager,
   });
 
   void spinWheel() {
-    // Verificar si el usuario tiene suficiente saldo
+    // Verificamos si el usuario tiene suficiente saldo
     if (coinValue.value > balanceProvider.balance) {
       Fluttertoast.showToast(
         msg: "No tienes suficientes monedas para apostar",
@@ -37,8 +39,8 @@ class RouletteGameLogic {
       return;
     }
 
-    if (!isSpinning.value && selectedBet.value != null && coinValue.value > 0) {
-      // Restar las monedas apostadas
+    if (!isSpinning.value && (selectedBet.value != null || selectedNumbers.value.isNotEmpty) && coinValue.value > 0) {
+      // Restamos las monedas apostadas
       balanceProvider.subtractCoins(coinValue.value);
 
       rotation.value = RouletteLogic.spinWheel(rotation.value);
@@ -51,47 +53,53 @@ class RouletteGameLogic {
         isSpinning.value = false;
 
         // Verificar si el usuario ganó
-        final number = int.tryParse(result) ?? 0; // Convertir el resultado a número
-        final color = RouletteLogic.numberColors[result]; // Color del número
+        final number = int.tryParse(result) ?? 0;
 
         bool isWin = false;
 
-        switch (selectedBet.value) {
-          case 'ODD':
-            isWin = number % 2 != 0 && number != 0; // Números impares (excepto 0)
-            break;
-          case 'EVEN':
-            isWin = number % 2 == 0 && number != 0; // Números pares (excepto 0)
-            break;
-          case 'RED':
-            isWin = color == RouletteLogic.rojo; // Números rojos
-            break;
-          case 'BLACK':
-            isWin = color == RouletteLogic.negro; // Números negros
-            break;
-          case 'GREEN':
-            isWin = number == 0; // Solo el número 0
-            break;
-          case '1-18':
-            isWin = number >= 1 && number <= 18; // Números del 1 al 18
-            break;
-          case '19-36':
-            isWin = number >= 19 && number <= 36; // Números del 19 al 36
-            break;
-          default:
-            isWin = false;
+        // Verificar si el número está en los seleccionados
+        if (selectedNumbers.value.isNotEmpty) {
+          isWin = selectedNumbers.value.contains(number);
+        } else {
+          final color = RouletteLogic.numberColors[result];
+          switch (selectedBet.value) {
+            case 'ODD':
+              isWin = number % 2 != 0 && number != 0;
+              break;
+            case 'EVEN':
+              isWin = number % 2 == 0 && number != 0;
+              break;
+            case 'RED':
+              isWin = color == RouletteLogic.rojo;
+              break;
+            case 'BLACK':
+              isWin = color == RouletteLogic.negro;
+              break;
+            case 'GREEN':
+              isWin = number == 0;
+              break;
+            case '1-18':
+              isWin = number >= 1 && number <= 18;
+              break;
+            case '19-36':
+              isWin = number >= 19 && number <= 36;
+              break;
+            default:
+              isWin = false;
+          }
         }
 
         if (isWin) {
-          // Calcular las ganancias según el tipo de apuesta
-          final winnings = selectedBet.value == 'GREEN'
-              ? coinValue.value * 35 // Paga 35:1 si es GREEN
-              : coinValue.value * 2; // Paga 2:1 para otras apuestas
+          // Calculamos las ganancias
+          final winnings = selectedNumbers.value.isNotEmpty
+              ? coinValue.value * (36 ~/ selectedNumbers.value.length) // Pago proporcional
+              : selectedBet.value == 'GREEN'
+                  ? coinValue.value * 35 
+                  : coinValue.value * 2;
 
           balanceProvider.addCoins(winnings);
 
           audioManager.playVictorySound();
-          // Mostrar mensaje de victoria
           Fluttertoast.showToast(
             msg: "¡Ganaste! Ganancias: $winnings monedas",
             toastLength: Toast.LENGTH_SHORT,
@@ -101,7 +109,6 @@ class RouletteGameLogic {
           );
           print('¡Ganaste! Número: $number. Ganancias: $winnings');
         } else {
-          // Mostrar mensaje de derrota
           Fluttertoast.showToast(
             msg: "Perdiste. Número: $number",
             toastLength: Toast.LENGTH_SHORT,
@@ -112,12 +119,13 @@ class RouletteGameLogic {
           print('Perdiste. Número: $number');
         }
 
-        // Reiniciar la apuesta
+        // Reiniciamos la apuesta
         selectedBet.value = null;
+        selectedNumbers.value = {};
       });
     } else {
       Fluttertoast.showToast(
-        msg: "Selecciona un tipo de apuesta y una cantidad de monedas",
+        msg: "Selecciona un tipo de apuesta o números y una cantidad de monedas",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         backgroundColor: Colors.orange,
