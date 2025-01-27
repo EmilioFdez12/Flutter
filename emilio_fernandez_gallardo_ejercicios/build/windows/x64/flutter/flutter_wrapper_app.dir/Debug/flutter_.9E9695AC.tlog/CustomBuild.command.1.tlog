@@ -1,0 +1,10 @@
+^C:\USERS\ALUMNADO2DAM\DESKTOP\FLUTTER\EMILIO_FERNANDEZ_GALLARDO_EJERCICIOS\WINDOWS\FLUTTER\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Users/Alumnado2DAM/Desktop/Flutter/emilio_fernandez_gallardo_ejercicios/windows -BC:/Users/Alumnado2DAM/Desktop/Flutter/emilio_fernandez_gallardo_ejercicios/build/windows/x64 --check-stamp-file C:/Users/Alumnado2DAM/Desktop/Flutter/emilio_fernandez_gallardo_ejercicios/build/windows/x64/flutter/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

@@ -88,9 +88,9 @@ class _MenuScreenState extends State<MenuScreen> {
                           );
                         },
                         textColor: const Color(0xFFF44336),
-                        textShadow: [
+                        textShadow: const [
                           Shadow(
-                            color: Colors.red.withOpacity(0.5),
+                            color: Colors.red,
                             blurRadius: 10,
                           ),
                         ],
@@ -99,7 +99,6 @@ class _MenuScreenState extends State<MenuScreen> {
                       ),
                     ),
                     SizedBox(width: screenSize.width * 0.05),
-                    /*
                     SizedBox(
                       width: screenSize.width * 0.4,
                       child: MenuButton(
@@ -107,9 +106,9 @@ class _MenuScreenState extends State<MenuScreen> {
                         onPressed: () {},
                         lineHeight: 1,
                         textColor: Colors.green,
-                        textShadow: [
+                        textShadow: const [
                           Shadow(
-                            color: Colors.green.withOpacity(0.5),
+                            color: Colors.green,
                             blurRadius: 10,
                           ),
                         ],
@@ -117,7 +116,6 @@ class _MenuScreenState extends State<MenuScreen> {
                         boxShadowColor: Colors.green,
                       ),
                     ),
-                    */
                   ],
                 ),
                 SizedBox(height: screenSize.height * 0.03),
@@ -135,9 +133,9 @@ class _MenuScreenState extends State<MenuScreen> {
                           );
                         },
                         textColor: Colors.blue,
-                        textShadow: [
+                        textShadow: const [
                           Shadow(
-                            color: Colors.blue.withOpacity(0.5),
+                            color: Colors.blue,
                             blurRadius: 10,
                           ),
                         ],

@@ -1,0 +1,10 @@
+^C:\USERS\ALUMNADO2DAM\DESKTOP\FLUTTER\EMILIO_FERNANDEZ_GALLARDO_EJERCICIOS\BUILD\WINDOWS\X64\CMAKEFILES\C8D82EC418BB815B845128378B96DEB5\INSTALL_FORCE.RULE
+setlocal
+cd .
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
