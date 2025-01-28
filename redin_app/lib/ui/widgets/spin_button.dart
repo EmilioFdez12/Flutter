@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 class SpinButton extends StatelessWidget {
   final String label;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   const SpinButton({
     super.key,
     required this.label,
-    required this.onPressed,
+    this.onPressed,
   });
 
   @override
@@ -27,8 +27,8 @@ class SpinButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(borderRadius),
         gradient: const LinearGradient(
           colors: [
-            Color.fromARGB(255, 255, 169, 71), 
-            Color.fromARGB(255, 255, 223, 117), 
+            Color.fromARGB(255, 255, 169, 71),
+            Color.fromARGB(255, 255, 223, 117),
             Color.fromARGB(255, 255, 170, 42),
           ],
           begin: Alignment.centerLeft,
@@ -49,13 +49,13 @@ class SpinButton extends StatelessWidget {
             ),
             elevation: 0,
           ),
-          onPressed: onPressed,
+          onPressed: onPressed, // Ahora puede ser null
           child: ShaderMask(
             shaderCallback: (Rect bounds) {
               return const LinearGradient(
                 colors: [
-                  Color.fromARGB(255, 255, 169, 71), 
-                  Color.fromARGB(255, 255, 223, 117), 
+                  Color.fromARGB(255, 255, 169, 71),
+                  Color.fromARGB(255, 255, 223, 117),
                   Color.fromARGB(255, 255, 170, 42),
                 ],
                 begin: Alignment.centerLeft,

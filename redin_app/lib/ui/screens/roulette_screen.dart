@@ -48,7 +48,7 @@ class RouletteScreen extends HookWidget {
     final screenWidth = screenSize.width;
     final screenHeight = screenSize.height;
 
-    // Ajustamos el tamaño del contenedor de la ruleta y los botones 
+    // Ajustamos el tamaño del contenedor de la ruleta y los botones
     final wheelSize = screenWidth * 0.7;
     final fontSize = screenWidth * 0.15;
 
@@ -129,6 +129,15 @@ class RouletteScreen extends HookWidget {
                           ),
                         ],
                       ),
+                    Positioned(
+                      top: 30,
+                      child: Image.asset(
+                        'assets/images/roulette/arrow.webp',
+                        fit: BoxFit.contain,
+                        width: screenWidth * 0.1,
+                        height: screenHeight * 0.1,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -159,6 +168,7 @@ class RouletteScreen extends HookWidget {
                             CustomSquareButton(
                               color: const Color.fromARGB(255, 255, 255, 255),
                               label: 'ODD',
+                              isActive: selectedBet.value == 'ODD',
                               onPressed: () {
                                 selectedBet.value = 'ODD';
                                 print('Apuesta seleccionada: ODD');
@@ -168,6 +178,7 @@ class RouletteScreen extends HookWidget {
                             CustomSquareButton(
                               color: Colors.red,
                               label: '',
+                              isActive: selectedBet.value == 'RED',
                               onPressed: () {
                                 selectedBet.value = 'RED';
                                 print('Apuesta seleccionada: RED');
@@ -177,6 +188,7 @@ class RouletteScreen extends HookWidget {
                             CustomSquareButton(
                               color: Colors.black,
                               label: '',
+                              isActive: selectedBet.value == 'BLACK',
                               onPressed: () {
                                 selectedBet.value = 'BLACK';
                                 print('Apuesta seleccionada: BLACK');
@@ -186,6 +198,7 @@ class RouletteScreen extends HookWidget {
                             CustomSquareButton(
                               color: const Color.fromARGB(255, 255, 255, 255),
                               label: 'EVEN',
+                              isActive: selectedBet.value == 'EVEN',
                               onPressed: () {
                                 selectedBet.value = 'EVEN';
                                 print('Apuesta seleccionada: EVEN');
@@ -200,6 +213,7 @@ class RouletteScreen extends HookWidget {
                             CustomSquareButton(
                               color: const Color.fromARGB(255, 255, 255, 255),
                               label: '1-18',
+                              isActive: selectedBet.value == '1-18',
                               onPressed: () {
                                 selectedBet.value = '1-18';
                                 print('Apuesta seleccionada: 1-18');
@@ -209,6 +223,7 @@ class RouletteScreen extends HookWidget {
                             CustomSquareButton(
                               color: Colors.green,
                               label: '0',
+                              isActive: selectedBet.value == 'GREEN',
                               onPressed: () {
                                 selectedBet.value = 'GREEN';
                                 print('Apuesta seleccionada: GREEN');
@@ -218,6 +233,7 @@ class RouletteScreen extends HookWidget {
                             CustomSquareButton(
                               color: const Color.fromARGB(255, 255, 255, 255),
                               label: '19-36',
+                              isActive: selectedBet.value == '19-36',
                               onPressed: () {
                                 selectedBet.value = '19-36';
                                 print('Apuesta seleccionada: 19-36');
@@ -225,8 +241,7 @@ class RouletteScreen extends HookWidget {
                             ),
                             SizedBox(width: screenWidth * 0.02),
                             CustomSquareButton(
-                              color: Colors
-                                  .blue,
+                              color: Colors.blue,
                               label: 'Table',
                               onPressed: toggleGrid,
                             ),
@@ -256,18 +271,16 @@ class RouletteScreen extends HookWidget {
                           child: NumberGrid(
                             start: currentPage.value == 1 ? 1 : 19,
                             end: currentPage.value == 1 ? 18 : 36,
-                            selectedNumbers: selectedNumbers
-                                .value,
+                            selectedNumbers: selectedNumbers.value,
                             onNumberSelected: (number) {
-                              // Actualizamos los números seleccionados
                               if (selectedNumbers.value.contains(number)) {
                                 selectedNumbers.value =
                                     Set<int>.from(selectedNumbers.value)
-                                      ..remove(number); // Deseleccionar
+                                      ..remove(number);
                               } else if (selectedNumbers.value.length < 4) {
                                 selectedNumbers.value =
                                     Set<int>.from(selectedNumbers.value)
-                                      ..add(number); // Seleccionar
+                                      ..add(number);
                               }
                               print('Número seleccionado: $number');
                             },

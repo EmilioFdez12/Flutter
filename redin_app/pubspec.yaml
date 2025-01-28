@@ -36,6 +36,7 @@ flutter:
     - assets/images/home/slots.png
     - assets/images/home/horses.png
     - assets/images/roulette/ruleta.webp
+    - assets/images/roulette/arrow.webp
     - assets/audio/casino.ogg
     - assets/audio/roulette/win.ogg
     - assets/images/horse/rail.png

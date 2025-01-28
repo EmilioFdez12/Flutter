@@ -1,7 +1,7 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:provider/provider.dart';
+import 'package:redin_app/logic/horse/horse_logic.dart';
 import 'package:redin_app/ui/widgets/horse/horse_button.dart';
 import 'package:redin_app/ui/widgets/horse/horse_racetrack.dart';
 import 'package:redin_app/utils/database/balance.dart';
@@ -17,127 +17,27 @@ class HorseScreen extends HookWidget {
     final screenHeight = screenSize.height;
     final screenWidth = screenSize.width;
 
-    // Controladores de animación para cada caballo
-    final animationController1 = useAnimationController(duration: const Duration(seconds: 15));
-    final animationController2 = useAnimationController(duration: const Duration(seconds: 15));
-    final animationController3 = useAnimationController(duration: const Duration(seconds: 15));
-    final animationController4 = useAnimationController(duration: const Duration(seconds: 15));
-
-    // Animaciones para mover los caballos
-    final animation1 = Tween<double>(begin: 0, end: 275).animate(animationController1);
-    final animation2 = Tween<double>(begin: 0, end: 275).animate(animationController2);
-    final animation3 = Tween<double>(begin: 0, end: 275).animate(animationController3);
-    final animation4 = Tween<double>(begin: 0, end: 275).animate(animationController4);
-
-    // Estado para el valor de las monedas seleccionadas
+    final horse1Position = useState(0.0);
+    final horse2Position = useState(0.0);
+    final horse3Position = useState(0.0);
+    final horse4Position = useState(0.0);
     final coinValue = useState(0);
-
-    // Estado para la apuesta seleccionada
     final selectedHorse = useState<String?>(null);
-
-    // Estado para almacenar el caballo ganador
     final winningHorse = useState<String?>(null);
+    final isRaceRunning = useState(false);
 
-    // Función para manejar cambios en el valor de las monedas
-    void onCoinChanged(int value) {
-      coinValue.value = value;
-      print('Monedas seleccionadas: $value');
-    }
-
-    // Función para iniciar la carrera
-    void startRace() {
-      if (selectedHorse.value == null || coinValue.value == 0) {
-        // Mostramos un mensaje de error si no se ha seleccionado un caballo o no se ha apostado
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Por favor, selecciona un caballo y ajusta tu apuesta.'),
-          ),
-        );
-        return;
-      }
-
-      // Verificamos si el saldo es suficiente
-      if (balanceProvider.balance < coinValue.value) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Saldo insuficiente.'),
-          ),
-        );
-        return;
-      }
-
-      // Descontamos la apuesta del saldo
-      balanceProvider.subtractCoins(coinValue.value);
-
-      // Iniciamos la carrera
-      final random = Random();
-
-      // Asignar velocidades aleatorias a cada caballo con mayor variabilidad
-      final speed1 = 10 + random.nextInt(6); // Entre 10 y 15 segundos
-      final speed2 = 10 + random.nextInt(6);
-      final speed3 = 10 + random.nextInt(6);
-      final speed4 = 10 + random.nextInt(6);
-
-      // Calculamos la duración de la animación en función de la velocidad
-      animationController1.duration = Duration(seconds: speed1);
-      animationController2.duration = Duration(seconds: speed2);
-      animationController3.duration = Duration(seconds: speed3);
-      animationController4.duration = Duration(seconds: speed4);
-
-      // Reiniciamos las animaciones antes de iniciarlas
-      animationController1.reset();
-      animationController2.reset();
-      animationController3.reset();
-      animationController4.reset();
-
-      // Iniciamos las animaciones
-      animationController1.forward();
-      animationController2.forward();
-      animationController3.forward();
-      animationController4.forward();
-
-      // Listener para detectar cuándo un caballo ha terminado la carrera
-      void checkRaceCompletion() {
-        final horseSpeeds = [speed1, speed2, speed3, speed4];
-        final minSpeed = horseSpeeds.reduce(min);
-        final winningHorseIndex = horseSpeeds.indexOf(minSpeed);
-
-        // Asignamos el nombre del caballo ganador
-        winningHorse.value = ['Rojo', 'Verde', 'Azul', 'Amarillo'][winningHorseIndex];
-
-        // Mostramos el resultado
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('¡El caballo ${winningHorse.value} ha ganado!'),
-            
-          ),
-        );
-
-        // Verificamos si el usuario apostó al caballo ganador
-        if (selectedHorse.value == winningHorse.value) {
-          // Calcular la recompensa (por ejemplo, 2x la apuesta)
-          final reward = coinValue.value * 2;
-          balanceProvider.addCoins(reward);
-
-          // Mostrar mensaje de victoria
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('¡Ganaste $reward monedas!'),
-            ),
-          );
-        } else {
-          // Mostramos mensaje al perder
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('No has ganado esta vez. ¡Suerte para la próxima!'),
-            ),
-          );
-        }
-      }
-
-      // Esperamos a que terminen los caballos y verificamos el resultado
-      Future.delayed(const Duration(seconds: 15), checkRaceCompletion);
-    }
+    final horseRaceLogic = HorseRaceLogic(
+      context: context,
+      balanceProvider: balanceProvider,
+      horse1Position: horse1Position,
+      horse2Position: horse2Position,
+      horse3Position: horse3Position,
+      horse4Position: horse4Position,
+      coinValue: coinValue,
+      selectedHorse: selectedHorse,
+      winningHorse: winningHorse,
+      isRaceRunning: isRaceRunning,
+    );
 
     return Scaffold(
       body: Stack(
@@ -153,77 +53,53 @@ class HorseScreen extends HookWidget {
             left: screenWidth * 0.1,
             child: CoinDisplay(coins: balanceProvider.balance),
           ),
-          // Caballo 1
           Positioned(
             top: screenHeight * 0.35,
             left: 0,
             right: 0,
             child: Center(
-              child: AnimatedBuilder(
-                animation: animation1,
-                builder: (context, child) {
-                  return HorseRaceTrack(
-                    horseImagePath: 'assets/images/horse/caballo_rojo.png',
-                    offset: animation1.value,
-                  );
-                },
+              child: HorseRaceTrack(
+                horseImagePath: 'assets/images/horse/caballo_rojo.png',
+                offset: horse1Position.value,
               ),
             ),
           ),
-          // Caballo 2
           Positioned(
             top: screenHeight * 0.40,
             left: 0,
             right: 0,
             child: Center(
-              child: AnimatedBuilder(
-                animation: animation2,
-                builder: (context, child) {
-                  return HorseRaceTrack(
-                    horseImagePath: 'assets/images/horse/caballo_verde.png',
-                    offset: animation2.value,
-                  );
-                },
+              child: HorseRaceTrack(
+                horseImagePath: 'assets/images/horse/caballo_verde.png',
+                offset: horse2Position.value,
               ),
             ),
           ),
-          // Caballo 3
           Positioned(
             top: screenHeight * 0.45,
             left: 0,
             right: 0,
             child: Center(
-              child: AnimatedBuilder(
-                animation: animation3,
-                builder: (context, child) {
-                  return HorseRaceTrack(
-                    horseImagePath: 'assets/images/horse/caballo_azul.png',
-                    offset: animation3.value,
-                  );
-                },
+              child: HorseRaceTrack(
+                horseImagePath: 'assets/images/horse/caballo_azul.png',
+                offset: horse3Position.value,
               ),
             ),
           ),
-          // Caballo 4
           Positioned(
             top: screenHeight * 0.50,
             left: 0,
             right: 0,
             child: Center(
-              child: AnimatedBuilder(
-                animation: animation4,
-                builder: (context, child) {
-                  return HorseRaceTrack(
-                    horseImagePath: 'assets/images/horse/caballo_amarillo.png',
-                    offset: animation4.value,
-                  );
-                },
+              child: HorseRaceTrack(
+                horseImagePath: 'assets/images/horse/caballo_amarillo.png',
+                offset: horse4Position.value,
               ),
             ),
           ),
-          // Botones de apuesta
           Positioned(
-            top: screenHeight * 0.6,
+            top:
+                screenHeight * 0.6, // Ajusta según donde quieras colocar la Row
             left: 0,
             right: 0,
             child: Row(
@@ -231,30 +107,42 @@ class HorseScreen extends HookWidget {
               children: [
                 ColorSquareButton(
                   color: Colors.red,
+                  isActive: selectedHorse.value ==
+                      'Rojo', // Activo si el caballo seleccionado es "Rojo"
                   onPressed: () {
                     selectedHorse.value = 'Rojo';
-                    print('Apuesta al caballo rojo: ${coinValue.value} monedas');
+                    print(
+                        'Apuesta al caballo rojo: ${coinValue.value} monedas');
                   },
                 ),
                 ColorSquareButton(
                   color: Colors.green,
+                  isActive: selectedHorse.value ==
+                      'Verde', // Activo si el caballo seleccionado es "Verde"
                   onPressed: () {
                     selectedHorse.value = 'Verde';
-                    print('Apuesta al caballo verde: ${coinValue.value} monedas');
+                    print(
+                        'Apuesta al caballo verde: ${coinValue.value} monedas');
                   },
                 ),
                 ColorSquareButton(
                   color: Colors.blue,
+                  isActive: selectedHorse.value ==
+                      'Azul',
                   onPressed: () {
                     selectedHorse.value = 'Azul';
-                    print('Apuesta al caballo azul: ${coinValue.value} monedas');
+                    print(
+                        'Apuesta al caballo azul: ${coinValue.value} monedas');
                   },
                 ),
                 ColorSquareButton(
                   color: Colors.yellow,
+                  isActive: selectedHorse.value ==
+                      'Amarillo',
                   onPressed: () {
                     selectedHorse.value = 'Amarillo';
-                    print('Apuesta al caballo amarillo: ${coinValue.value} monedas');
+                    print(
+                        'Apuesta al caballo amarillo: ${coinValue.value} monedas');
                   },
                 ),
               ],
@@ -267,7 +155,7 @@ class HorseScreen extends HookWidget {
             child: Center(
               child: CoinSelector(
                 coinValue: coinValue.value,
-                onCoinChanged: onCoinChanged,
+                onCoinChanged: horseRaceLogic.onCoinChanged,
               ),
             ),
           ),
@@ -278,7 +166,8 @@ class HorseScreen extends HookWidget {
             child: Center(
               child: SpinButton(
                 label: 'GO!',
-                onPressed: startRace,
+                onPressed:
+                    isRaceRunning.value ? null : horseRaceLogic.startRace,
               ),
             ),
           ),
