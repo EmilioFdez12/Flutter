@@ -28,7 +28,11 @@ class CoinSelector extends StatelessWidget {
         vertical: paddingVertical * 0.001,
       ),
       decoration: BoxDecoration(
-        color: Colors.black,
+        color: const Color.fromRGBO(0, 0, 0, 64),
+        border: Border.all(
+          color: const Color.fromARGB(255, 0, 0, 0),
+          width: 2,
+        ),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(

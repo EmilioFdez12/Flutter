@@ -98,51 +98,53 @@ class HorseScreen extends HookWidget {
             ),
           ),
           Positioned(
-            top:
-                screenHeight * 0.6, // Ajusta según donde quieras colocar la Row
+            top: screenHeight * 0.6,
             left: 0,
             right: 0,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ColorSquareButton(
+                HorseButton(
                   color: Colors.red,
-                  isActive: selectedHorse.value ==
-                      'Rojo', // Activo si el caballo seleccionado es "Rojo"
+                  borderColor: Colors.red[300]!,
+                  size: screenWidth * 0.15,
+                  isActive: selectedHorse.value == 'Rojo',
                   onPressed: () {
                     selectedHorse.value = 'Rojo';
-                    print(
-                        'Apuesta al caballo rojo: ${coinValue.value} monedas');
+                    print('Apuesta al caballo rojo: ${coinValue.value} monedas');
                   },
                 ),
-                ColorSquareButton(
+                const SizedBox(width: 16),
+                HorseButton(
                   color: Colors.green,
-                  isActive: selectedHorse.value ==
-                      'Verde', // Activo si el caballo seleccionado es "Verde"
+                  borderColor: Colors.green[300]!,
+                  size: screenWidth * 0.15,
+                  isActive: selectedHorse.value == 'Verde',
                   onPressed: () {
                     selectedHorse.value = 'Verde';
-                    print(
-                        'Apuesta al caballo verde: ${coinValue.value} monedas');
+                    print('Apuesta al caballo verde: ${coinValue.value} monedas');
                   },
                 ),
-                ColorSquareButton(
+                const SizedBox(width: 16),
+                HorseButton(
                   color: Colors.blue,
-                  isActive: selectedHorse.value ==
-                      'Azul',
+                  borderColor: Colors.blue[300]!,
+                  size: screenWidth * 0.15,
+                  isActive: selectedHorse.value == 'Azul',
                   onPressed: () {
                     selectedHorse.value = 'Azul';
-                    print(
-                        'Apuesta al caballo azul: ${coinValue.value} monedas');
+                    print('Apuesta al caballo azul: ${coinValue.value} monedas');
                   },
                 ),
-                ColorSquareButton(
+                const SizedBox(width: 16),
+                HorseButton(
                   color: Colors.yellow,
-                  isActive: selectedHorse.value ==
-                      'Amarillo',
+                  borderColor: Colors.yellow[300]!,
+                  size: screenWidth * 0.15,
+                  isActive: selectedHorse.value == 'Amarillo',
                   onPressed: () {
                     selectedHorse.value = 'Amarillo';
-                    print(
-                        'Apuesta al caballo amarillo: ${coinValue.value} monedas');
+                    print('Apuesta al caballo amarillo: ${coinValue.value} monedas');
                   },
                 ),
               ],
@@ -166,8 +168,7 @@ class HorseScreen extends HookWidget {
             child: Center(
               child: SpinButton(
                 label: 'GO!',
-                onPressed:
-                    isRaceRunning.value ? null : horseRaceLogic.startRace,
+                onPressed: isRaceRunning.value ? null : horseRaceLogic.startRace,
               ),
             ),
           ),

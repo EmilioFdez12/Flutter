@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:redin_app/ui/screens/blackjack_screen.dart';
 import 'package:redin_app/ui/screens/horse_screen.dart';
 import 'package:redin_app/ui/screens/roulette_screen.dart';
 import 'package:redin_app/ui/widgets/animated_route.dart';
@@ -21,9 +22,9 @@ class _MenuScreenState extends State<MenuScreen> {
   @override
   void initState() {
     super.initState();
-    audioManager = AudioManager(); 
+    audioManager = AudioManager();
     // Reproducimos la música de fondo
-    audioManager.playBackgroundMusic(); 
+    audioManager.playBackgroundMusic();
   }
 
   @override
@@ -103,7 +104,10 @@ class _MenuScreenState extends State<MenuScreen> {
                       width: screenSize.width * 0.4,
                       child: MenuButton(
                         text: 'BLACK\nJACK',
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context,
+                              AnimatedRoute(page: const BlackJackScreen()));
+                        },
                         lineHeight: 1,
                         textColor: Colors.green,
                         textShadow: const [

@@ -35,13 +35,21 @@ flutter:
     - assets/images/home/luckyWheel.png
     - assets/images/home/slots.png
     - assets/images/home/horses.png
+
     - assets/images/roulette/ruleta.webp
     - assets/images/roulette/arrow.webp
-    - assets/audio/casino.ogg
-    - assets/audio/roulette/win.ogg
+
     - assets/images/horse/rail.png
     - assets/images/horse/caballo_rojo.png
     - assets/images/horse/caballo_verde.png
     - assets/images/horse/caballo_azul.png
     - assets/images/horse/caballo_amarillo.png
+
+    - assets/images/blackjack/table/card_thrower.webp
+    - assets/images/blackjack/table/card_outline.webp
+
+
+    - assets/audio/casino.ogg
+    - assets/audio/roulette/win.ogg
+
 

@@ -1,51 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
-class ColorSquareButton extends StatelessWidget {
+class HorseButton extends HookWidget {
   final Color color;
-  final VoidCallback onPressed;
+  final Color borderColor;
+  final double size;
   final bool isActive;
+  final VoidCallback onPressed;
 
-  const ColorSquareButton({
+  const HorseButton({
     super.key,
     required this.color,
-    required this.onPressed,
+    required this.borderColor,
+    required this.size,
     required this.isActive,
+    required this.onPressed,
   });
 
   @override
   Widget build(BuildContext context) {
-    // Obtenemos el tamaño de la pantalla
-    final screenSize = MediaQuery.of(context).size;
-    final screenWidth = screenSize.width;
-
-    final buttonSize = screenWidth * 0.15;
-
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        width: buttonSize,
-        height: buttonSize,
+        width: size,
+        height: size,
         decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(20),
+          color: isActive ? color : color.withOpacity(0.2),
+          borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: isActive
-                ? const Color.fromARGB(255, 255, 255, 255)
-                : Colors.white,
-            width: isActive ? 4 : 2,
+            color: isActive ? borderColor : borderColor,
+            width: 2,
           ),
-          boxShadow: isActive
-              // Si esta activo, añadimos una sombra
-              ? [
-                  BoxShadow(
-                    color: const Color.fromARGB(255, 255, 255, 255)
-                        .withOpacity(0.6),
-                    blurRadius: 10,
-                    spreadRadius: 2,
-                  ),
-                ]
-              // Si no está activo, no hacemos nada
-              : [],
         ),
       ),
     );
