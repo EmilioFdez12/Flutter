@@ -4,6 +4,7 @@ import 'package:relacion1/screens/screens.dart';
 
 void main() {
   runApp(const Principal());
+
 }
 
 class Principal extends StatelessWidget {
@@ -14,6 +15,7 @@ class Principal extends StatelessWidget {
     return MaterialApp(
       title: 'Relación Ejercicios',
       initialRoute: '/',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         // Color de fondo de la pantalla
         scaffoldBackgroundColor: const Color(0xFF121212),
@@ -28,9 +30,8 @@ class Principal extends StatelessWidget {
         textTheme: TextTheme(
           titleLarge: GoogleFonts.anton(
             fontSize: 32,
-            color: const Color.fromARGB(255, 206, 206, 206),
+            color: const Color.fromARGB(255, 255, 255, 255),
           ),
-          // Puedes agregar más estilos de texto aquí si lo necesitas
         ),
       ),
       routes: {

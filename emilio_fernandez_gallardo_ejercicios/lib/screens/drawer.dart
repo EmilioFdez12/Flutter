@@ -15,8 +15,10 @@ class MenuLateral extends StatelessWidget {
       child: ListView(
         children: <Widget>[
           const UserAccountsDrawerHeader(
-            accountName: Text("Emilio Fernández Gallardo", style: TextStyle(fontSize: 20)),
-            accountEmail: Text("micorreo@gmail.com", style: TextStyle(fontSize: 18)),
+            accountName: Text("Emilio Fernández Gallardo",
+                style: TextStyle(fontSize: 20)),
+            accountEmail:
+                Text("micorreo@gmail.com", style: TextStyle(fontSize: 18)),
             decoration: BoxDecoration(
                 image: DecorationImage(
                     image: NetworkImage(
@@ -125,7 +127,8 @@ class MenuLateral extends StatelessWidget {
             title: Text(
               "Instagram",
               style: TextStyle(
-                color: currentRoute == AppRoutes.instagram ? Colors.white : null,
+                color:
+                    currentRoute == AppRoutes.instagram ? Colors.white : null,
               ),
             ),
             selected: currentRoute == AppRoutes.instagram,
@@ -135,11 +138,27 @@ class MenuLateral extends StatelessWidget {
               Navigator.of(context).pushNamed(AppRoutes.instagram);
             },
           ),
-           ListTile(
+          ListTile(
+            title: Text(
+              "Juego Imagenes Aleatorias",
+              style: TextStyle(
+                color:
+                    currentRoute == AppRoutes.juegoClicks ? Colors.white : null,
+              ),
+            ),
+            selected: currentRoute == AppRoutes.juegoClicks,
+            selectedTileColor: Colors.blue[300],
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).pushNamed(AppRoutes.juegoClicks);
+            },
+          ),
+          ListTile(
             title: Text(
               "Juego Cartas",
               style: TextStyle(
-                color: currentRoute == AppRoutes.juegoCartas ? Colors.white : null,
+                color:
+                    currentRoute == AppRoutes.juegoCartas ? Colors.white : null,
               ),
             ),
             selected: currentRoute == AppRoutes.juegoCartas,
@@ -149,11 +168,12 @@ class MenuLateral extends StatelessWidget {
               Navigator.of(context).pushNamed(AppRoutes.juegoCartas);
             },
           ),
-              ListTile(
+          ListTile(
             title: Text(
               "Formulario",
               style: TextStyle(
-                color: currentRoute == AppRoutes.formulario ? Colors.white : null,
+                color:
+                    currentRoute == AppRoutes.formulario ? Colors.white : null,
               ),
             ),
             selected: currentRoute == AppRoutes.formulario,
@@ -165,7 +185,6 @@ class MenuLateral extends StatelessWidget {
           ),
         ],
       ),
-      
     );
   }
 }

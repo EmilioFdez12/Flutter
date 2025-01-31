@@ -25,6 +25,9 @@ class _JuegoCartasState extends State<JuegoCartas> {
   bool jugadorPlanto = false;
   final Random random = Random();
 
+  int rondasGanadasJugador = 0;
+  int rondasGanadasMaquina = 0;
+
   final List<Map<String, dynamic>> cartas = [
     {'nombre': '1', 'valor': 1.0},
     {'nombre': '2', 'valor': 2.0},
@@ -85,16 +88,14 @@ class _JuegoCartasState extends State<JuegoCartas> {
       setState(() {
         finDelJuego = true;
         mensaje = '¡Perdiste!';
-        
+        rondasGanadasMaquina++;
       });
-    }
-
-    // Si el jugador tiene 7.5 exactamente, gana
-    if (puntosJugador == 7.5) {
+    } else if (puntosJugador == 7.5) {
       setState(() {
-        finDelJuego = true;
-        mensaje = '¡Ganaste!';
+        mensaje = 'Has llegado a 7.5. Turno de la máquina.';
+        jugadorPlanto = true;
       });
+      turnoMaquina();
     }
   }
 
@@ -112,14 +113,7 @@ class _JuegoCartasState extends State<JuegoCartas> {
 
     double puntosTemp = puntosMaquina;
 
-    // Aquí la máquina no va a contar la última carta del jugador si se plantó
-    List<Map<String, dynamic>> cartasJugadorSinUltima = List.from(cartasJugador);
-    if (jugadorPlanto) {
-      // Elimina la última carta del jugador de la lista para que no se cuente
-      cartasJugadorSinUltima.removeLast();
-    }
-
-    // La máquina toma cartas, pero no tiene en cuenta la última del jugador
+    // La máquina juega hasta superar o igualar al jugador, o hasta pasarse de 7.5
     while (puntosTemp <= puntosJugador && puntosTemp < 7.5) {
       await Future.delayed(const Duration(seconds: 2));
       Map<String, dynamic> carta = sacarCarta();
@@ -139,30 +133,42 @@ class _JuegoCartasState extends State<JuegoCartas> {
     });
   }
 
-void evaluarResultado() {
-  if (puntosMaquina > 7.5) {
-    mensaje = '¡Ganaste!';
-  } else if (puntosJugador > puntosMaquina) {
-    mensaje =
-        '¡Ganaste!';
-  } else if (puntosJugador < puntosMaquina) {
-    mensaje =
-        '¡Perdiste!';
-  } else {
-    mensaje = 'Perdiste';
+  void evaluarResultado() {
+    if (puntosJugador > 7.5) {
+      mensaje = '¡Perdiste!';
+      rondasGanadasMaquina++;
+    } else if (puntosMaquina > 7.5) {
+      mensaje = '¡Ganaste!';
+      rondasGanadasJugador++;
+    } else if (puntosJugador > puntosMaquina) {
+      mensaje = '¡Ganaste!';
+      rondasGanadasJugador++;
+    } else if (puntosJugador < puntosMaquina) {
+      mensaje = '¡Perdiste!';
+      rondasGanadasMaquina++;
+    } else {
+      mensaje = 'Empate';
+    }
+
+    finDelJuego = true;
+
+    // Verificar si alguien ganó 5 rondas
+    if (rondasGanadasJugador >= 5 || rondasGanadasMaquina >= 5) {
+      mensaje = rondasGanadasJugador >= 5
+          ? '¡Has ganado 5 rondas! ¡Felicidades!'
+          : '¡La máquina ha ganado 5 rondas!';
+      finDelJuego = true;
+    }
   }
 
-  finDelJuego = true;
-}
-
-
-  Widget mostrarCartas(List<Map<String, dynamic>> cartas, Color color) {
+  Widget _mostrarCartas(List<Map<String, dynamic>> cartas, Color color) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: cartas
           .map((carta) => Container(
                 margin: const EdgeInsets.symmetric(horizontal: 5),
-                padding: const EdgeInsets.only(top: 20, bottom: 20, left: 10, right: 10),
+                padding: const EdgeInsets.only(
+                    top: 20, bottom: 20, left: 10, right: 10),
                 decoration: BoxDecoration(
                   color: color,
                   borderRadius: BorderRadius.circular(10),
@@ -176,6 +182,19 @@ void evaluarResultado() {
     );
   }
 
+  Widget _mostrarCorazones(int rondasGanadas, Color color) {
+    return Row(
+      children: List.generate(
+        5,
+        (index) => Icon(
+          index < rondasGanadas ? Icons.favorite : Icons.favorite_border,
+          color: color,
+          size: 30,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -184,44 +203,103 @@ void evaluarResultado() {
         title: const Text("Juego Siete y Medio"),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            mensaje,
-            style: const TextStyle(fontSize: 22, color: Colors.white),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 40),
-          Text('Tus cartas:', style: const TextStyle(fontSize: 18, color: Colors.white)),
-          mostrarCartas(cartasJugador, Colors.green),
-          const SizedBox(height: 20),
-          Text('Cartas de la máquina:', style: const TextStyle(fontSize: 18, color: Colors.white)),
-          mostrarCartas(cartasMaquina, Colors.red),
-          const SizedBox(height: 20),
-          if (!finDelJuego) ...[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+          // Corazones en la parte superior
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                ElevatedButton(
-                  onPressed: turnoJugador,
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.grey[800]),
-                  child: const Text('Sacar Carta', style: TextStyle(color: Colors.white)),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: _mostrarCorazones(rondasGanadasJugador, Colors.green),
                 ),
-                const SizedBox(width: 20),
-                ElevatedButton(
-                  onPressed: plantarse,
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.grey[800]),
-                  child: const Text('Plantarse', style: TextStyle(color: Colors.white)),
+                Padding(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: _mostrarCorazones(rondasGanadasMaquina, Colors.red),
                 ),
               ],
             ),
-          ] else ...[
-            ElevatedButton(
-              onPressed: reiniciarJuego,
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.blue[400]),
-              child: const Text('Jugar de nuevo', style: TextStyle(color: Colors.white)),
+          ),
+          // Resto del contenido
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (rondasGanadasJugador >= 5 || rondasGanadasMaquina >= 5) ...[
+                  Text(
+                    mensaje,
+                    style: const TextStyle(fontSize: 24, color: Colors.white),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        rondasGanadasJugador = 0;
+                        rondasGanadasMaquina = 0;
+                        reiniciarJuego();
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue[400],
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 40, vertical: 20),
+                    ),
+                    child: const Text(
+                      'Reiniciar Partida',
+                      style: TextStyle(fontSize: 24, color: Colors.white),
+                    ),
+                  ),
+                ] else ...[
+                  Text(
+                    mensaje,
+                    style: const TextStyle(fontSize: 22, color: Colors.white),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 20),
+                  Text('Tus cartas:',
+                      style: const TextStyle(fontSize: 18, color: Colors.white)),
+                  _mostrarCartas(cartasJugador, Colors.green),
+                  const SizedBox(height: 20),
+                  Text('Cartas de la máquina:',
+                      style: const TextStyle(fontSize: 18, color: Colors.white)),
+                  _mostrarCartas(cartasMaquina, Colors.red),
+                  const SizedBox(height: 20),
+                  if (!finDelJuego) ...[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                          onPressed: turnoJugador,
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.grey[800]),
+                          child: const Text('Sacar Carta',
+                              style: TextStyle(color: Colors.white)),
+                        ),
+                        const SizedBox(width: 20),
+                        ElevatedButton(
+                          onPressed: plantarse,
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.grey[800]),
+                          child: const Text('Plantarse',
+                              style: TextStyle(color: Colors.white)),
+                        ),
+                      ],
+                    ),
+                  ] else ...[
+                    ElevatedButton(
+                      onPressed: reiniciarJuego,
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue[400]),
+                      child: const Text('Jugar de nuevo',
+                          style: TextStyle(color: Colors.white)),
+                    ),
+                  ],
+                ],
+              ],
             ),
-          ],
+          ),
         ],
       ),
     );
