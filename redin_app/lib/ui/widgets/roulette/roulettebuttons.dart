@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class CustomSquareButton extends StatelessWidget {
+class RouletteButton extends StatelessWidget {
   final Color color;
   final String label;
   final VoidCallback onPressed;
-  final bool isActive; // Nuevo parámetro para indicar si está activo
+  final bool isActive;
+  final bool isRound; // Nuevo parámetro para definir si el botón es redondo
 
-  const CustomSquareButton({
+  const RouletteButton({
     super.key,
     required this.color,
     required this.label,
     required this.onPressed,
-    this.isActive = false, // Valor predeterminado como inactivo
+    this.isActive = false,
+    this.isRound = false, // Por defecto, el botón es rectangular
   });
 
   @override
@@ -21,39 +23,31 @@ class CustomSquareButton extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
-    final fontSize = screenWidth * 0.035;
-    final verticalPadding = screenHeight * 0.018;
-    final horizontalPadding = screenWidth * 0.06;
-    final borderRadius = screenWidth * 0.03;
+    // Tamaños responsive
+    final buttonWidth = screenWidth * 0.2;
+    final buttonHeight = screenHeight * 0.07;
+    final fontSize = screenWidth * 0.04;
 
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        padding: EdgeInsets.symmetric(
-          vertical: verticalPadding,
-          horizontal: horizontalPadding,
-        ),
+        width: buttonWidth,
+        height: buttonHeight,
         decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(borderRadius),
-          border: isActive
-              ? Border.all(color: Colors.yellow, width: 3) // Borde amarillo si está activo
-              : Border.all(color: Colors.transparent, width: 0),
-          boxShadow: isActive
-              ? [
-                  const BoxShadow(
-                    color: Colors.yellow, 
-                    blurRadius: 10,
-                    spreadRadius: 0,
-                  ),
-                ]
-              : [],
+          color: isActive ? color : color.withOpacity(0.3),
+          borderRadius: isRound
+              ? BorderRadius.circular(buttonHeight / 2) 
+              : BorderRadius.circular(12), 
+          border: Border.all(
+            color: isActive ? color.withOpacity(0.7) : color,
+            width: isActive ? 4 : 2, // Grosor del borde
+          ),
         ),
         child: Center(
           child: Text(
             label,
             style: GoogleFonts.poppins(
-              color: Colors.black,
+              color: isActive ? Colors.black : color, 
               fontSize: fontSize,
               fontWeight: FontWeight.w700,
             ),

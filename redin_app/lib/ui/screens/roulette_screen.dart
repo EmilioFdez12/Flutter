@@ -143,7 +143,7 @@ class RouletteScreen extends HookWidget {
               ),
             ),
             Positioned(
-              bottom: screenHeight * 0.08,
+              bottom: screenHeight * 0.05,
               left: 0,
               right: 0,
               child: Center(
@@ -165,7 +165,7 @@ class RouletteScreen extends HookWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            CustomSquareButton(
+                            RouletteButton(
                               color: const Color.fromARGB(255, 255, 255, 255),
                               label: 'ODD',
                               isActive: selectedBet.value == 'ODD',
@@ -175,7 +175,7 @@ class RouletteScreen extends HookWidget {
                               },
                             ),
                             SizedBox(width: screenWidth * 0.02),
-                            CustomSquareButton(
+                            RouletteButton(
                               color: Colors.red,
                               label: '',
                               isActive: selectedBet.value == 'RED',
@@ -185,7 +185,7 @@ class RouletteScreen extends HookWidget {
                               },
                             ),
                             SizedBox(width: screenWidth * 0.02),
-                            CustomSquareButton(
+                            RouletteButton(
                               color: Colors.black,
                               label: '',
                               isActive: selectedBet.value == 'BLACK',
@@ -195,7 +195,7 @@ class RouletteScreen extends HookWidget {
                               },
                             ),
                             SizedBox(width: screenWidth * 0.02),
-                            CustomSquareButton(
+                            RouletteButton(
                               color: const Color.fromARGB(255, 255, 255, 255),
                               label: 'EVEN',
                               isActive: selectedBet.value == 'EVEN',
@@ -210,7 +210,7 @@ class RouletteScreen extends HookWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            CustomSquareButton(
+                            RouletteButton(
                               color: const Color.fromARGB(255, 255, 255, 255),
                               label: '1-18',
                               isActive: selectedBet.value == '1-18',
@@ -220,7 +220,7 @@ class RouletteScreen extends HookWidget {
                               },
                             ),
                             SizedBox(width: screenWidth * 0.02),
-                            CustomSquareButton(
+                            RouletteButton(
                               color: Colors.green,
                               label: '0',
                               isActive: selectedBet.value == 'GREEN',
@@ -230,7 +230,7 @@ class RouletteScreen extends HookWidget {
                               },
                             ),
                             SizedBox(width: screenWidth * 0.02),
-                            CustomSquareButton(
+                            RouletteButton(
                               color: const Color.fromARGB(255, 255, 255, 255),
                               label: '19-36',
                               isActive: selectedBet.value == '19-36',
@@ -240,7 +240,7 @@ class RouletteScreen extends HookWidget {
                               },
                             ),
                             SizedBox(width: screenWidth * 0.02),
-                            CustomSquareButton(
+                            RouletteButton(
                               color: Colors.blue,
                               label: 'Table',
                               onPressed: toggleGrid,
