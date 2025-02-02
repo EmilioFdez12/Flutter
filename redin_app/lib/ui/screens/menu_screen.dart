@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:redin_app/ui/screens/blackjack_screen.dart';
+import 'package:redin_app/ui/screens/blackjack_screens/blackjack_bet_screen.dart';
 import 'package:redin_app/ui/screens/horse_screen.dart';
 import 'package:redin_app/ui/screens/roulette_screen.dart';
 import 'package:redin_app/ui/widgets/animated_route.dart';
@@ -106,7 +106,7 @@ class _MenuScreenState extends State<MenuScreen> {
                         text: 'BLACK\nJACK',
                         onPressed: () {
                           Navigator.push(context,
-                              AnimatedRoute(page: const BlackJackScreen()));
+                              AnimatedRoute(page: const BlackJackBetScreen()));
                         },
                         lineHeight: 1,
                         textColor: Colors.green,

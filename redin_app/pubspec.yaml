@@ -47,7 +47,7 @@ flutter:
 
     - assets/images/blackjack/table/card_thrower.webp
     - assets/images/blackjack/table/card_outline.webp
-    - assets/images/blackjack/table/StartBtn.webp
+    - assets/images/blackjack/table/start_button.webp
 
     # Diamantes
     - assets/images/blackjack/cards/diamonds/2_of_diamonds.webp
@@ -108,6 +108,8 @@ flutter:
     - assets/images/blackjack/cards/spades/queen_of_spades.webp
     - assets/images/blackjack/cards/spades/king_of_spades.webp
     - assets/images/blackjack/cards/spades/ace_of_spades.webp
+
+    - assets/images/blackjack/cards/Reverso.webp
 
 
     - assets/audio/casino.ogg
