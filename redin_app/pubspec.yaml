@@ -52,64 +52,64 @@ flutter:
     - assets/images/blackjack/table/start_button.webp
 
     # Diamantes
-    - assets/images/blackjack/cards/diamonds/2_of_diamonds.webp
-    - assets/images/blackjack/cards/diamonds/3_of_diamonds.webp
-    - assets/images/blackjack/cards/diamonds/4_of_diamonds.webp
-    - assets/images/blackjack/cards/diamonds/5_of_diamonds.webp
-    - assets/images/blackjack/cards/diamonds/6_of_diamonds.webp
-    - assets/images/blackjack/cards/diamonds/7_of_diamonds.webp
-    - assets/images/blackjack/cards/diamonds/8_of_diamonds.webp
-    - assets/images/blackjack/cards/diamonds/9_of_diamonds.webp
-    - assets/images/blackjack/cards/diamonds/10_of_diamonds.webp
-    - assets/images/blackjack/cards/diamonds/jack_of_diamonds.webp
-    - assets/images/blackjack/cards/diamonds/queen_of_diamonds.webp
-    - assets/images/blackjack/cards/diamonds/king_of_diamonds.webp
-    - assets/images/blackjack/cards/diamonds/ace_of_diamonds.webp
+    - assets/images/blackjack/cards/2_of_diamonds.webp
+    - assets/images/blackjack/cards/3_of_diamonds.webp
+    - assets/images/blackjack/cards/4_of_diamonds.webp
+    - assets/images/blackjack/cards/5_of_diamonds.webp
+    - assets/images/blackjack/cards/6_of_diamonds.webp
+    - assets/images/blackjack/cards/7_of_diamonds.webp
+    - assets/images/blackjack/cards/8_of_diamonds.webp
+    - assets/images/blackjack/cards/9_of_diamonds.webp
+    - assets/images/blackjack/cards/10_of_diamonds.webp
+    - assets/images/blackjack/cards/jack_of_diamonds.webp
+    - assets/images/blackjack/cards/queen_of_diamonds.webp
+    - assets/images/blackjack/cards/king_of_diamonds.webp
+    - assets/images/blackjack/cards/ace_of_diamonds.webp
 
     # Corazones
-    - assets/images/blackjack/cards/hearts/2_of_hearts.webp
-    - assets/images/blackjack/cards/hearts/3_of_hearts.webp
-    - assets/images/blackjack/cards/hearts/4_of_hearts.webp
-    - assets/images/blackjack/cards/hearts/5_of_hearts.webp
-    - assets/images/blackjack/cards/hearts/6_of_hearts.webp
-    - assets/images/blackjack/cards/hearts/7_of_hearts.webp
-    - assets/images/blackjack/cards/hearts/8_of_hearts.webp
-    - assets/images/blackjack/cards/hearts/9_of_hearts.webp
-    - assets/images/blackjack/cards/hearts/10_of_hearts.webp
-    - assets/images/blackjack/cards/hearts/jack_of_hearts.webp
-    - assets/images/blackjack/cards/hearts/queen_of_hearts.webp
-    - assets/images/blackjack/cards/hearts/king_of_hearts.webp
-    - assets/images/blackjack/cards/hearts/ace_of_hearts.webp
+    - assets/images/blackjack/cards/2_of_hearts.webp
+    - assets/images/blackjack/cards/3_of_hearts.webp
+    - assets/images/blackjack/cards/4_of_hearts.webp
+    - assets/images/blackjack/cards/5_of_hearts.webp
+    - assets/images/blackjack/cards/6_of_hearts.webp
+    - assets/images/blackjack/cards/7_of_hearts.webp
+    - assets/images/blackjack/cards/8_of_hearts.webp
+    - assets/images/blackjack/cards/9_of_hearts.webp
+    - assets/images/blackjack/cards/10_of_hearts.webp
+    - assets/images/blackjack/cards/jack_of_hearts.webp
+    - assets/images/blackjack/cards/queen_of_hearts.webp
+    - assets/images/blackjack/cards/king_of_hearts.webp
+    - assets/images/blackjack/cards/ace_of_hearts.webp
 
     # Tréboles
-    - assets/images/blackjack/cards/clubs/2_of_clubs.webp
-    - assets/images/blackjack/cards/clubs/3_of_clubs.webp
-    - assets/images/blackjack/cards/clubs/4_of_clubs.webp
-    - assets/images/blackjack/cards/clubs/5_of_clubs.webp
-    - assets/images/blackjack/cards/clubs/6_of_clubs.webp
-    - assets/images/blackjack/cards/clubs/7_of_clubs.webp
-    - assets/images/blackjack/cards/clubs/8_of_clubs.webp
-    - assets/images/blackjack/cards/clubs/9_of_clubs.webp
-    - assets/images/blackjack/cards/clubs/10_of_clubs.webp
-    - assets/images/blackjack/cards/clubs/jack_of_clubs.webp
-    - assets/images/blackjack/cards/clubs/queen_of_clubs.webp
-    - assets/images/blackjack/cards/clubs/king_of_clubs.webp
-    - assets/images/blackjack/cards/clubs/ace_of_clubs.webp
+    - assets/images/blackjack/cards/2_of_clubs.webp
+    - assets/images/blackjack/cards/3_of_clubs.webp
+    - assets/images/blackjack/cards/4_of_clubs.webp
+    - assets/images/blackjack/cards/5_of_clubs.webp
+    - assets/images/blackjack/cards/6_of_clubs.webp
+    - assets/images/blackjack/cards/7_of_clubs.webp
+    - assets/images/blackjack/cards/8_of_clubs.webp
+    - assets/images/blackjack/cards/9_of_clubs.webp
+    - assets/images/blackjack/cards/10_of_clubs.webp
+    - assets/images/blackjack/cards/jack_of_clubs.webp
+    - assets/images/blackjack/cards/queen_of_clubs.webp
+    - assets/images/blackjack/cards/king_of_clubs.webp
+    - assets/images/blackjack/cards/ace_of_clubs.webp
 
     # Picas
-    - assets/images/blackjack/cards/spades/2_of_spades.webp
-    - assets/images/blackjack/cards/spades/3_of_spades.webp
-    - assets/images/blackjack/cards/spades/4_of_spades.webp
-    - assets/images/blackjack/cards/spades/5_of_spades.webp
-    - assets/images/blackjack/cards/spades/6_of_spades.webp
-    - assets/images/blackjack/cards/spades/7_of_spades.webp
-    - assets/images/blackjack/cards/spades/8_of_spades.webp
-    - assets/images/blackjack/cards/spades/9_of_spades.webp
-    - assets/images/blackjack/cards/spades/10_of_spades.webp
-    - assets/images/blackjack/cards/spades/jack_of_spades.webp
-    - assets/images/blackjack/cards/spades/queen_of_spades.webp
-    - assets/images/blackjack/cards/spades/king_of_spades.webp
-    - assets/images/blackjack/cards/spades/ace_of_spades.webp
+    - assets/images/blackjack/cards/2_of_spades.webp
+    - assets/images/blackjack/cards/3_of_spades.webp
+    - assets/images/blackjack/cards/4_of_spades.webp
+    - assets/images/blackjack/cards/5_of_spades.webp
+    - assets/images/blackjack/cards/6_of_spades.webp
+    - assets/images/blackjack/cards/7_of_spades.webp
+    - assets/images/blackjack/cards/8_of_spades.webp
+    - assets/images/blackjack/cards/9_of_spades.webp
+    - assets/images/blackjack/cards/10_of_spades.webp
+    - assets/images/blackjack/cards/jack_of_spades.webp
+    - assets/images/blackjack/cards/queen_of_spades.webp
+    - assets/images/blackjack/cards/king_of_spades.webp
+    - assets/images/blackjack/cards/ace_of_spades.webp
 
     - assets/images/blackjack/cards/Reverso.webp
 
