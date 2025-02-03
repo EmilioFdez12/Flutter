@@ -11,6 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_hooks: ^0.20.5
+  flutter_launcher_icons: ^0.14.3
   flutter_screenutil: ^5.9.3
   fluttertoast: ^8.2.10
   google_fonts: ^6.2.1
@@ -28,6 +29,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/redin_logo.png
+    
     - assets/images/home/home_background.png
     - assets/images/home/welcomeCasino.png
     - assets/images/home/roulette.png
@@ -115,4 +117,7 @@ flutter:
     - assets/audio/casino.ogg
     - assets/audio/roulette/win.ogg
 
-
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/icons/redin_icon.webp"

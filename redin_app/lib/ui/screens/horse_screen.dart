@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:provider/provider.dart';
 import 'package:redin_app/logic/horse/horse_logic.dart';
-import 'package:redin_app/ui/widgets/horse/horse_button.dart';
-import 'package:redin_app/ui/widgets/horse/horse_racetrack.dart';
 import 'package:redin_app/utils/database/balance.dart';
 import 'package:redin_app/ui/ui.dart';
 

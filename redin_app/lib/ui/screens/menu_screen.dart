@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:redin_app/ui/screens/blackjack_screens/blackjack_bet_screen.dart';
-import 'package:redin_app/ui/screens/horse_screen.dart';
-import 'package:redin_app/ui/screens/roulette_screen.dart';
-import 'package:redin_app/ui/widgets/animated_route.dart';
-import 'package:redin_app/ui/widgets/coins/coins_display.dart';
-import 'package:redin_app/ui/widgets/menu_button.dart';
+import 'package:redin_app/ui/ui.dart';
 import 'package:redin_app/utils/database/balance.dart';
 import 'package:redin_app/utils/music/music_manager.dart';
 

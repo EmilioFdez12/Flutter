@@ -3,9 +3,9 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:provider/provider.dart';
 import 'package:redin_app/logic/roulette/roulette_game_logic.dart';
 import 'package:redin_app/logic/roulette/roulette_logic.dart';
-import 'package:redin_app/ui/ui.dart';
 import 'package:redin_app/utils/database/balance.dart';
 import 'package:redin_app/utils/music/music_manager.dart';
+import 'package:redin_app/ui/ui.dart';
 
 class RouletteScreen extends HookWidget {
   const RouletteScreen({super.key});
