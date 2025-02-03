@@ -9,6 +9,7 @@ class Formulario extends StatelessWidget {
     DateTime? selectedDate;
     final _formKey = GlobalKey<FormState>(); // Clave para el formulario
     final _dateController = TextEditingController(); // Controlador para la fecha
+    String? selectedGender; // Variable para almacenar el género seleccionado
 
     return Scaffold(
       drawer: const MenuLateral(),
@@ -180,6 +181,47 @@ class Formulario extends StatelessWidget {
                     ),
                   ],
                 ),
+                const SizedBox(height: 16),
+
+                // Campo de género
+                DropdownButtonFormField<String>(
+  decoration: const InputDecoration(
+    labelText: 'Género',
+    labelStyle: TextStyle(color: Colors.white, fontSize: 18),
+    border: OutlineInputBorder(
+      borderSide: BorderSide(color: Colors.white),
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: Colors.white),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: Colors.white),
+    ),
+    contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 16), // Margen interno
+  ),
+  value: selectedGender,
+  dropdownColor: const Color(0xFF121212), // Color de fondo del menú desplegable
+  style: const TextStyle(color: Colors.white, fontSize: 18), // Estilo del texto seleccionado
+  items: const [
+    DropdownMenuItem(
+      value: 'Masculino',
+      child: Text('Masculino', style: TextStyle(color: Colors.white)),
+    ),
+    DropdownMenuItem(
+      value: 'Femenino',
+      child: Text('Femenino', style: TextStyle(color: Colors.white)),
+    ),
+  ],
+  onChanged: (value) {
+    selectedGender = value; // Actualizar el valor seleccionado
+  },
+  validator: (value) {
+    if (value == null || value.isEmpty) {
+      return 'Por favor, seleccione su género';
+    }
+    return null;
+  },
+),
                 const SizedBox(height: 24),
 
                 // Botón de enviar
