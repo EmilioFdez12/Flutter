@@ -37,7 +37,7 @@ class Crud {
     ''');
 
     // Insertar saldo inicial
-    await db.insert('balance', {'amount': 100000});
+    await db.insert('balance', {'amount': 1000});
   }
 
   // Metodo para sacar el saldo actual

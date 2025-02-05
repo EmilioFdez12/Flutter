@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
 
 class BetButtons extends StatelessWidget {
-
+  final VoidCallback onHitPressed;
+  final VoidCallback onStandPressed;
+  final VoidCallback onDoublePressed; // Ya no acepta null
+  final VoidCallback onHalfPressed;   // Ya no acepta null
+  final bool isDoubleEnabled;         // Bandera para habilitar/deshabilitar X2
+  final bool isHalfEnabled;           // Bandera para habilitar/deshabilitar /2
 
   const BetButtons({
     super.key,
+    required this.onHitPressed,
+    required this.onStandPressed,
+    required this.onDoublePressed,
+    required this.onHalfPressed,
+    required this.isDoubleEnabled,
+    required this.isHalfEnabled,
   });
 
   @override
@@ -15,7 +26,7 @@ class BetButtons extends StatelessWidget {
 
     final buttonWidth = screenWidth * 0.2;
     final buttonHeight = screenHeight * 0.1;
-    final roundButtonSize = screenWidth * 0.15;
+    final roundButtonSize = screenWidth * 0.15; // Tamaño para botones redondos
     final fontSize = screenWidth * 0.05;
 
     return Row(
@@ -30,7 +41,34 @@ class BetButtons extends StatelessWidget {
           height: buttonHeight * 0.6,
           isRound: false,
           fontSize: fontSize,
-          onPressed: () => print('hit'),
+          onPressed: onHitPressed,
+          isEnabled: true, // Siempre activo
+        ),
+        const SizedBox(width: 10),
+        // Botón X2 (redondo)
+        _buildButton(
+          text: "X2",
+          color: Colors.orange,
+          borderColor: Colors.orange[300]!,
+          width: roundButtonSize,
+          height: roundButtonSize,
+          isRound: true,
+          fontSize: fontSize,
+          onPressed: isDoubleEnabled ? onDoublePressed : null, // Desactivar si no está habilitado
+          isEnabled: isDoubleEnabled,
+        ),
+        const SizedBox(width: 10),
+        // Botón /2 (redondo)
+        _buildButton(
+          text: "/2",
+          color: Colors.green,
+          borderColor: Colors.green[300]!,
+          width: roundButtonSize,
+          height: roundButtonSize,
+          isRound: true,
+          fontSize: fontSize,
+          onPressed: isHalfEnabled ? onHalfPressed : null, // Desactivar si no está habilitado
+          isEnabled: isHalfEnabled,
         ),
         const SizedBox(width: 10),
         // Botón STAND
@@ -42,7 +80,8 @@ class BetButtons extends StatelessWidget {
           height: buttonHeight * 0.6,
           isRound: false,
           fontSize: fontSize,
-          onPressed: () => print('stand'),
+          onPressed: onStandPressed,
+          isEnabled: true, // Siempre activo
         ),
       ],
     );
@@ -57,6 +96,7 @@ class BetButtons extends StatelessWidget {
     required bool isRound,
     required double fontSize,
     required VoidCallback? onPressed,
+    required bool isEnabled, // Bandera para habilitar/deshabilitar visualmente
   }) {
     return GestureDetector(
       onTap: onPressed,
@@ -64,12 +104,12 @@ class BetButtons extends StatelessWidget {
         width: width,
         height: height,
         decoration: BoxDecoration(
-          color: onPressed != null ? color.withOpacity(0.2) : Colors.grey,
+          color: isEnabled ? color.withOpacity(0.2) : Colors.grey.withOpacity(0.2), // Gris si está desactivado
           borderRadius: isRound
               ? BorderRadius.circular(height / 2)
               : BorderRadius.circular(12),
           border: Border.all(
-            color: onPressed != null ? borderColor : Colors.grey,
+            color: isEnabled ? borderColor : Colors.grey, // Gris si está desactivado
             width: 2,
           ),
         ),
@@ -77,7 +117,7 @@ class BetButtons extends StatelessWidget {
           child: Text(
             text,
             style: TextStyle(
-              color: onPressed != null ? color : Colors.grey,
+              color: isEnabled ? color : Colors.grey, // Gris si está desactivado
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
             ),

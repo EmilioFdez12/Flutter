@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, library_private_types_in_public_api, no_logic_in_create_state
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:redin_app/logic/blackjack/blackjack_game_logic.dart';
 import 'package:redin_app/ui/widgets/blackjack/animated_card.dart';
+import 'package:redin_app/ui/widgets/blackjack/bet_button.dart';
 import 'package:redin_app/utils/database/balance.dart';
 import 'package:redin_app/ui/ui.dart';
 
@@ -15,13 +16,19 @@ class BlackJackScreen extends StatefulWidget {
   final int initialBet;
 
   @override
-  _BlackJackScreenState createState() => _BlackJackScreenState();
+  _BlackJackScreenState createState() => _BlackJackScreenState(initialBet: initialBet);
 }
 
 class _BlackJackScreenState extends State<BlackJackScreen> {
   final BlackJackGame _game = BlackJackGame();
   late FToast fToast;
   bool _resultProcessed = false;
+  int _currentBet; // Variable para almacenar la apuesta actual
+  bool _hasDoubledOrHalved = false; // Bandera para controlar si X2 o /2 ya se usaron
+  bool _isInitialPhase = true; // Bandera para controlar si el jugador tiene 2 cartas
+
+  // Constructor que recibe initialBet
+  _BlackJackScreenState({required int initialBet}) : _currentBet = initialBet;
 
   @override
   void initState() {
@@ -52,11 +59,10 @@ class _BlackJackScreenState extends State<BlackJackScreen> {
 
     // Esperar la duración del Toast y luego navegar
     Future.delayed(const Duration(seconds: 2), () {
-      Navigator.pop(context); // Eliminar BlackJackScreen de la pila
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const BlackJackBetScreen(),
+          builder: (context) => BlackJackBetScreen(),
         ),
       );
     });
@@ -64,12 +70,11 @@ class _BlackJackScreenState extends State<BlackJackScreen> {
 
   void _handleGameResult(String result, BuildContext context) {
     if (!_resultProcessed) {
-      final balanceProvider =
-          Provider.of<BalanceProvider>(context, listen: false);
+      final balanceProvider = Provider.of<BalanceProvider>(context, listen: false);
       if (result.contains('Ganaste')) {
-        balanceProvider.addCoins(widget.initialBet * 2);
+        balanceProvider.addCoins(_currentBet * 2);
       } else if (result.contains('Empate')) {
-        balanceProvider.addCoins(widget.initialBet);
+        balanceProvider.addCoins(_currentBet);
       }
       _resultProcessed = true;
     }
@@ -86,6 +91,9 @@ class _BlackJackScreenState extends State<BlackJackScreen> {
         ? _game.calculateHandValue(
             _game.showDealerCard ? _game.dealerHand : [_game.dealerHand[0]])
         : 0;
+
+    // Actualizar _isInitialPhase: solo es true si el jugador tiene 2 cartas
+    _isInitialPhase = _game.playerHand.length == 2;
 
     if (_game.gameOver && !_resultProcessed) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -165,25 +173,31 @@ class _BlackJackScreenState extends State<BlackJackScreen> {
             top: screenHeight * 0.85,
             left: 0,
             right: 0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  onPressed: () async {
-                    await _game.hit();
-                    setState(() {});
-                  },
-                  child: const Text('Hit'),
-                ),
-                const SizedBox(width: 20),
-                ElevatedButton(
-                  onPressed: () async {
-                    await _game.stand();
-                    setState(() {});
-                  },
-                  child: const Text('Stand'),
-                ),
-              ],
+            child: BetButtons(
+              onHitPressed: () async {
+                await _game.hit();
+                setState(() {});
+              },
+              onStandPressed: () async {
+                await _game.stand();
+                setState(() {});
+              },
+              onDoublePressed: () {
+                setState(() {
+                  balanceProvider.subtractCoins(_currentBet); // Restar la apuesta actual
+                  _currentBet *= 2; // Multiplicar la apuesta por 2
+                  _hasDoubledOrHalved = true; // Desactivar los botones X2 y /2
+                });
+              },
+              onHalfPressed: () {
+                setState(() {
+                  balanceProvider.addCoins(_currentBet ~/ 2); // Devolver la mitad de la apuesta
+                  _currentBet ~/= 2; // Dividir la apuesta por 2
+                  _hasDoubledOrHalved = true; // Desactivar los botones X2 y /2
+                });
+              },
+              isDoubleEnabled: _isInitialPhase && !_hasDoubledOrHalved,
+              isHalfEnabled: _isInitialPhase && !_hasDoubledOrHalved,
             ),
           ),
         ],
