@@ -12,14 +12,14 @@ class BlackJackGame {
   bool isInitialDealing = true;
 
   Future<String> drawCard() async {
-    const String apiKey = '76bf02dd-2a49-4870-bd59-e631847b7a43';
+    const String apiK = '76bf02dd-2a49-4870-bd59-e631847b7a43';
     const String url = 'https://api.random.org/json-rpc/4/invoke';
 
     final Map<String, dynamic> requestBody = {
       "jsonrpc": "2.0",
       "method": "generateIntegers",
       "params": {
-        "apiKey": apiKey,
+        "apiKey": apiK,
         "n": 1,
         "min": 0,
         "max": 51,
@@ -92,23 +92,27 @@ class BlackJackGame {
     }
   }
 
-  Future<void> startGame() async {
-    isInitialDealing = true;
+Future<void> startGame(Function onCardDrawn) async {
+  isInitialDealing = true;
 
-    playerHand.add(await drawCard());
-    await Future.delayed(const Duration(milliseconds: 500));
+  playerHand.add(await drawCard());
+  onCardDrawn();
+  await Future.delayed(const Duration(milliseconds: 500));
 
-    dealerHand.add(await drawCard());
-    await Future.delayed(const Duration(milliseconds: 500));
+  dealerHand.add(await drawCard());
+  onCardDrawn();
+  await Future.delayed(const Duration(milliseconds: 500));
 
-    playerHand.add(await drawCard());
-    await Future.delayed(const Duration(milliseconds: 500));
+  playerHand.add(await drawCard());
+  onCardDrawn(); 
+  await Future.delayed(const Duration(milliseconds: 500));
 
-    dealerHand.add(await drawCard());
-    isInitialDealing = false;
+  dealerHand.add(await drawCard());
+  onCardDrawn();
+  isInitialDealing = false;
 
-    checkForBlackjack();
-  }
+  checkForBlackjack();
+}
 
   Future<void> hit() async {
     if (!gameOver && !isDealerTurn && !isInitialDealing) {
@@ -147,4 +151,4 @@ class BlackJackGame {
       isDealerTurn = false;
     }
   }
-}
+} 

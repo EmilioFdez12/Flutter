@@ -51,7 +51,7 @@ class _AnimatedCardState extends State<AnimatedCard> with SingleTickerProviderSt
       position: _animation,
       child: Image.asset(
         'assets/images/blackjack/cards/${widget.isFaceUp ? widget.card : 'Reverso'}.webp',
-        height: MediaQuery.of(context).size.height * 0.12,
+        height: MediaQuery.of(context).size.height * 0.15,
       ),
     );
   }

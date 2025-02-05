@@ -102,7 +102,7 @@ class _MenuScreenState extends State<MenuScreen> {
                         text: 'BLACK\nJACK',
                         onPressed: () {
                           Navigator.push(context,
-                              AnimatedRoute(page: const BlackJackScreen(initialBet: 200,)));
+                              AnimatedRoute(page: const BlackJackBetScreen()));
                         },
                         lineHeight: 1,
                         textColor: Colors.green,

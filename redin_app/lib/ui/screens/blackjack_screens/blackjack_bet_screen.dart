@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,39 +13,13 @@ class BlackJackBetScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final selectedBet = useState(0); // Usamos useState para manejar el estado de la apuesta
     final balanceProvider = Provider.of<BalanceProvider>(context);
     final screenSize = MediaQuery.of(context).size;
     final screenHeight = screenSize.height;
     final screenWidth = screenSize.width;
 
     final fontSize = screenWidth * 0.12;
-
-    void startGame(BuildContext context) {
-      if (selectedBet.value > 0) {
-        if (balanceProvider.balance >= selectedBet.value) {
-          balanceProvider.subtractCoins(selectedBet.value);
-          Navigator.push(
-            context,
-            AnimatedRoute(page: BlackJackScreen(initialBet: selectedBet.value)),
-          );
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text("No tienes suficientes monedas para esta apuesta."),
-              backgroundColor: Colors.red,
-            ),
-          );
-        }
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Por favor, selecciona una apuesta."),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
-    }
+    final betAmount = useState(0);
 
     return Scaffold(
       body: Stack(
@@ -88,7 +64,8 @@ class BlackJackBetScreen extends HookWidget {
                     textAlign: TextAlign.center,
                     style: GoogleFonts.poppins(
                       textStyle: TextStyle(
-                        color: const Color.fromARGB(255, 225, 0, 0), // Color de relleno
+                        color: const Color.fromARGB(
+                            255, 225, 0, 0), // Color de relleno
                         fontSize: fontSize,
                         fontWeight: FontWeight.bold,
                         height: 1.2,
@@ -100,28 +77,46 @@ class BlackJackBetScreen extends HookWidget {
             ),
           ),
           Positioned(
-            bottom: screenHeight * 0.25,
+            top: screenHeight * 0.5,
             left: 0,
             right: 0,
             child: Center(
               child: CoinSelector(
-                coinValue: selectedBet.value,
-                onCoinChanged: (value) {
-                  selectedBet.value = value; // Actualizamos el valor de la apuesta
+                coinValue: betAmount.value,
+                onCoinChanged: (newValue) {
+                  betAmount.value = newValue;
                 },
               ),
             ),
           ),
           Positioned(
-            top: screenHeight * 0.62,
-            left: screenWidth * 0.25,
-            child: GestureDetector(
-              onTap: () => startGame(context),
-              child: Image.asset(
-                'assets/images/blackjack/table/start_button.webp',
-                fit: BoxFit.contain,
-                width: screenWidth * 0.5,
-                height: screenHeight * 0.5,
+            top: screenHeight * 0.7,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: ElevatedButton(
+                onPressed: () async {
+                  if (betAmount.value > 0 &&
+                      betAmount.value <= balanceProvider.balance) {
+                    await balanceProvider.subtractCoins(betAmount.value);
+                    Navigator.pushReplacement(
+                      // Usar pushReplacement en lugar de push
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            BlackJackScreen(initialBet: betAmount.value),
+                      ),
+                    );
+                  } else {
+                    // Mostrar un mensaje de error si la apuesta no es válida
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Apuesta no válida'),
+                      ),
+                    );
+                  }
+                },
+                child: const Text('Jugar'),
               ),
             ),
           ),
