@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:redin_app/ui/screens/blackjack_screens/blackjack_screen.dart';
 import 'package:redin_app/ui/ui.dart';
 import 'package:redin_app/utils/database/balance.dart';
 import 'package:redin_app/utils/music/music_manager.dart';
@@ -13,18 +12,17 @@ class MenuScreen extends StatefulWidget {
 }
 
 class _MenuScreenState extends State<MenuScreen> {
-  late AudioManager audioManager;
-
   @override
   void initState() {
     super.initState();
-    audioManager = AudioManager();
+    final audioManager = Provider.of<AudioManager>(context, listen: false);
     // Reproducimos la música de fondo
     audioManager.playBackgroundMusic();
   }
 
   @override
   void dispose() {
+    final audioManager = Provider.of<AudioManager>(context, listen: false);
     // Limpiamos el audioManager
     audioManager.dispose();
     super.dispose();

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart'; // Importa fluttertoast
 import 'package:redin_app/utils/database/balance.dart';
+import 'package:redin_app/utils/music/music_manager.dart';
 
 class HorseRaceLogic {
   final BuildContext context;
@@ -15,6 +16,7 @@ class HorseRaceLogic {
   final ValueNotifier<String?> selectedHorse;
   final ValueNotifier<String?> winningHorse;
   final ValueNotifier<bool> isRaceRunning;
+  final AudioManager audioManager; // Añadir AudioManager
 
   HorseRaceLogic({
     required this.context,
@@ -27,6 +29,7 @@ class HorseRaceLogic {
     required this.selectedHorse,
     required this.winningHorse,
     required this.isRaceRunning,
+    required this.audioManager, // Inyectar AudioManager
   });
 
   void onCoinChanged(int value) {
@@ -34,7 +37,7 @@ class HorseRaceLogic {
     print('Monedas seleccionadas: $value');
   }
 
-  void startRace() {
+  void startRace() async {
     if (selectedHorse.value == null || coinValue.value == 0) {
       Fluttertoast.showToast(
         msg: 'Por favor, selecciona un caballo y ajusta tu apuesta.',
@@ -66,10 +69,17 @@ class HorseRaceLogic {
 
     isRaceRunning.value = true;
 
-    // ignore: unused_local_variable
+    // Bajar el volumen de la música de fondo a 0
+    print('Muting background music');
+    await audioManager.muteBackgroundMusic();
+
+    // Reproducir la música de la carrera
+    print('Playing race music');
+    await audioManager.playHorseMusic();
+
     Timer? raceTimer;
 
-    raceTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    raceTimer = Timer.periodic(const Duration(seconds: 1), (timer) async {
       final random = Random();
 
       horse1Position.value += 5 + random.nextInt(26);
@@ -81,6 +91,7 @@ class HorseRaceLogic {
           horse2Position.value >= 275 ||
           horse3Position.value >= 275 ||
           horse4Position.value >= 275) {
+        print('Race finished');
         timer.cancel();
         isRaceRunning.value = false;
 
@@ -116,6 +127,7 @@ class HorseRaceLogic {
             textColor: Colors.white,
           );
         } else {
+          await audioManager.playFailSound();
           Fluttertoast.showToast(
             msg: 'No has ganado esta vez. ¡Suerte para la próxima!',
             toastLength: Toast.LENGTH_SHORT,
@@ -124,6 +136,14 @@ class HorseRaceLogic {
             textColor: Colors.white,
           );
         }
+
+        // Detener la música de la carrera
+        print('Stopping race music');
+        await audioManager.stopHorseMusic();
+
+        // Restaurar el volumen de la música de fondo
+        print('Unmuting background music');
+        await audioManager.unmuteBackgroundMusic();
       }
     });
   }

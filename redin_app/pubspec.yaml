@@ -113,10 +113,14 @@ flutter:
     - assets/images/blackjack/cards/ace_of_spades.webp
 
     - assets/images/blackjack/cards/Reverso.webp
+    - assets/images/blackjack/blackjack_title.webp
 
 
     - assets/audio/casino.ogg
+    - assets/audio/fail_sound.ogg
     - assets/audio/roulette/win.ogg
+    - assets/audio/roulette/ball_sound.ogg
+    - assets/audio/horse/horse_racing.ogg
 
 flutter_launcher_icons:
   android: true

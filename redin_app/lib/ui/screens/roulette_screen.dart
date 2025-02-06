@@ -21,7 +21,7 @@ class RouletteScreen extends HookWidget {
     final selectedBet = useState<String?>(null);
     final selectedNumbers = useState<Set<int>>({});
     final balanceProvider = Provider.of<BalanceProvider>(context);
-    final audioManager = AudioManager();
+    final audioManager = Provider.of<AudioManager>(context);
 
     // Inicializamos la lógica del juego
     final gameLogic = RouletteGameLogic(
@@ -82,7 +82,7 @@ class RouletteScreen extends HookWidget {
             // Ruleta
             Center(
               child: Padding(
-                padding: EdgeInsets.only(bottom: screenHeight * 0.35),
+                padding: EdgeInsets.only(bottom: screenHeight * 0.3),
                 child: Stack(
                   alignment: Alignment.center,
                   children: [

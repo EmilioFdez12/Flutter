@@ -36,7 +36,13 @@ class BlackJackBetScreen extends HookWidget {
             child: CoinDisplay(coins: balanceProvider.balance),
           ),
           Positioned(
-            top: screenHeight * 0.3,
+            top: screenHeight * 0.28,
+            left: screenWidth * 0.1,
+            child: Image.asset("assets/images/blackjack/blackjack_title.webp",
+            width: screenWidth * 0.8),
+          ),
+          Positioned(
+            top: screenHeight * 0.5,
             left: 0,
             right: 0,
             child: Center(
@@ -77,7 +83,7 @@ class BlackJackBetScreen extends HookWidget {
             ),
           ),
           Positioned(
-            top: screenHeight * 0.5,
+            top: screenHeight * 0.7,
             left: 0,
             right: 0,
             child: Center(
@@ -90,17 +96,16 @@ class BlackJackBetScreen extends HookWidget {
             ),
           ),
           Positioned(
-            top: screenHeight * 0.7,
+            top: screenHeight * 0.82,
             left: 0,
             right: 0,
             child: Center(
-              child: ElevatedButton(
-                onPressed: () async {
+              child: GestureDetector(
+                onTap: () async {
                   if (betAmount.value > 0 &&
                       betAmount.value <= balanceProvider.balance) {
                     await balanceProvider.subtractCoins(betAmount.value);
                     Navigator.pushReplacement(
-                      // Usar pushReplacement en lugar de push
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
@@ -116,7 +121,12 @@ class BlackJackBetScreen extends HookWidget {
                     );
                   }
                 },
-                child: const Text('Jugar'),
+                child: Image.asset(
+                  'assets/images/blackjack/table/start_button.webp', // Ruta de la imagen
+                  width: screenWidth * 0.8, // Ancho de la imagen
+                  height: screenHeight * 0.1, // Alto de la imagen
+                  fit: BoxFit.contain, // Ajustar la imagen
+                ),
               ),
             ),
           ),

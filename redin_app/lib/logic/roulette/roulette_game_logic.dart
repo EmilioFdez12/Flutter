@@ -1,4 +1,3 @@
-// roulette_game_logic.dart
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:redin_app/logic/roulette/roulette_logic.dart';
@@ -26,7 +25,7 @@ class RouletteGameLogic {
     required this.audioManager,
   });
 
-  void spinWheel() {
+  void spinWheel() async {
     // Verificamos si el usuario tiene suficiente saldo
     if (coinValue.value > balanceProvider.balance) {
       Fluttertoast.showToast(
@@ -43,14 +42,26 @@ class RouletteGameLogic {
       // Restamos las monedas apostadas
       balanceProvider.subtractCoins(coinValue.value);
 
+      // Mutear la música de fondo
+      await audioManager.muteBackgroundMusic();
+
+      // Reproducir el sonido de la ruleta girando
+      await audioManager.playRouletteBall();
+
       rotation.value = RouletteLogic.spinWheel(rotation.value);
       isSpinning.value = true;
       resultNumber.value = "";
 
-      Future.delayed(const Duration(seconds: 6), () {
+      Future.delayed(const Duration(seconds: 6), () async {
         final result = RouletteLogic.calculateResult(rotation.value);
         resultNumber.value = result;
         isSpinning.value = false;
+
+        // Detener el sonido de la ruleta girando
+        await audioManager.stopRouletteMusic();
+
+        // Restaurar la música de fondo
+        await audioManager.unmuteBackgroundMusic();
 
         // Verificar si el usuario ganó
         final number = int.tryParse(result) ?? 0;
@@ -92,27 +103,30 @@ class RouletteGameLogic {
         if (isWin) {
           // Calculamos las ganancias
           final winnings = selectedNumbers.value.isNotEmpty
-              ? coinValue.value * (36 ~/ selectedNumbers.value.length) // Pago proporcional
+              ? coinValue.value * (36 ~/ selectedNumbers.value.length)
               : selectedBet.value == 'GREEN'
                   ? coinValue.value * 35 
                   : coinValue.value * 2;
 
           balanceProvider.addCoins(winnings);
 
-          audioManager.playVictorySound();
+          // Reproducir sonido de victoria
+          await audioManager.playVictorySound();
+
           Fluttertoast.showToast(
             msg: "¡Ganaste! Ganancias: $winnings monedas",
             toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
+            gravity: ToastGravity.CENTER,
             backgroundColor: Colors.green,
             textColor: Colors.white,
           );
           print('¡Ganaste! Número: $number. Ganancias: $winnings');
-        } else {
+        } else { 
+          await audioManager.playFailSound();
           Fluttertoast.showToast(
             msg: "Perdiste. Número: $number",
             toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
+            gravity: ToastGravity.CENTER,
             backgroundColor: Colors.red,
             textColor: Colors.white,
           );

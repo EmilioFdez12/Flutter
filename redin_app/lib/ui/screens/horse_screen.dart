@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:redin_app/logic/horse/horse_logic.dart';
 import 'package:redin_app/utils/database/balance.dart';
 import 'package:redin_app/ui/ui.dart';
+import 'package:redin_app/utils/music/music_manager.dart';
 
 class HorseScreen extends HookWidget {
   const HorseScreen({super.key});
@@ -11,6 +12,8 @@ class HorseScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final balanceProvider = Provider.of<BalanceProvider>(context);
+    final audioManager = Provider.of<AudioManager>(context);
+
     final screenSize = MediaQuery.of(context).size;
     final screenHeight = screenSize.height;
     final screenWidth = screenSize.width;
@@ -35,6 +38,7 @@ class HorseScreen extends HookWidget {
       selectedHorse: selectedHorse,
       winningHorse: winningHorse,
       isRaceRunning: isRaceRunning,
+      audioManager: audioManager,
     );
 
     return Scaffold(
