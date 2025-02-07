@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+/// Container donde se muestra
+/// el saldo actual del usuario
 class CoinDisplay extends StatelessWidget {
   final int coins;
 
@@ -11,14 +13,13 @@ class CoinDisplay extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
-    final fontSize = screenWidth * 0.06; 
+    final fontSize = screenWidth * 0.06;
     final horizontalPadding = screenWidth * 0.05;
     final verticalPadding = screenHeight * 0.01;
     final imageSize = screenWidth * 0.15;
 
     return Stack(
-      clipBehavior:
-          Clip.none,
+      clipBehavior: Clip.none,
       alignment: Alignment.center,
       children: [
         DecoratedBox(

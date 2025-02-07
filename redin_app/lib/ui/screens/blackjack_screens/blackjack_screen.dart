@@ -10,6 +10,11 @@ import 'package:redin_app/ui/widgets/blackjack/bet_button.dart';
 import 'package:redin_app/utils/database/balance.dart';
 import 'package:redin_app/ui/ui.dart';
 
+/// Pantalla principal donde se juega al Blackjack.
+/// Esta pantalla muestra la interfaz de usuario del juego, incluyendo las cartas del jugador,
+/// las cartas del crupier, y las opciones para realizar apuestas, pedir cartas o plantarse.
+/// 
+/// [initialBet]: La apuesta inicial con la que el jugador comienza la partida.
 class BlackJackScreen extends StatefulWidget {
   const BlackJackScreen({super.key, required this.initialBet});
 
@@ -20,14 +25,13 @@ class BlackJackScreen extends StatefulWidget {
 }
 
 class _BlackJackScreenState extends State<BlackJackScreen> {
-  final BlackJackGame _game = BlackJackGame();
+  final BlackJackGameLogic _game = BlackJackGameLogic();
   late FToast fToast;
   bool _resultProcessed = false;
-  int _currentBet; // Variable para almacenar la apuesta actual
-  bool _hasDoubledOrHalved = false; // Bandera para controlar si X2 o /2 ya se usaron
-  bool _isInitialPhase = true; // Bandera para controlar si el jugador tiene 2 cartas
+  int _currentBet;
+  bool _hasDoubledOrHalved = false;
+  bool _isInitialPhase = true;
 
-  // Constructor que recibe initialBet
   _BlackJackScreenState({required int initialBet}) : _currentBet = initialBet;
 
   @override
@@ -40,6 +44,11 @@ class _BlackJackScreenState extends State<BlackJackScreen> {
     });
   }
 
+  /// Muestra un toast con un mensaje y un color de fondo específico.
+  /// 
+  /// [message]: El mensaje que se mostrará en el toast.
+  /// [backgroundColor]: El color de fondo del toast.
+  /// [context]: El contexto de la aplicación.
   void _showToast(String message, Color backgroundColor, BuildContext context) {
     fToast.showToast(
       child: Container(
@@ -57,23 +66,29 @@ class _BlackJackScreenState extends State<BlackJackScreen> {
       toastDuration: const Duration(seconds: 2),
     );
 
-    // Esperar la duración del Toast y luego navegar
+    // Navegamos a la pantalla de apuestas después de 2 segundos
     Future.delayed(const Duration(seconds: 2), () {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => BlackJackBetScreen(),
+          builder: (context) => const BlackJackBetScreen(),
         ),
       );
     });
   }
 
+  /// Maneja el resultado del juego y actualiza el saldo del jugador.
+  /// 
+  /// [result]: El resultado del juego (ganar, perder, empate).
+  /// [context]: El contexto de la aplicación.
   void _handleGameResult(String result, BuildContext context) {
     if (!_resultProcessed) {
       final balanceProvider = Provider.of<BalanceProvider>(context, listen: false);
       if (result.contains('Ganaste')) {
+        // Si el jugador gana, añade el doble de la apuesta al saldo
         balanceProvider.addCoins(_currentBet * 2);
       } else if (result.contains('Empate')) {
+        // Si hay un empate, devuelve la apuesta al jugador
         balanceProvider.addCoins(_currentBet);
       }
       _resultProcessed = true;
@@ -86,15 +101,17 @@ class _BlackJackScreenState extends State<BlackJackScreen> {
     final screenSize = MediaQuery.of(context).size;
     final screenHeight = screenSize.height;
 
+    // Calculamos el puntaje del jugador y del crupier
     int playerScore = _game.calculateHandValue(_game.playerHand);
     int dealerScore = _game.dealerHand.isNotEmpty
         ? _game.calculateHandValue(
             _game.showDealerCard ? _game.dealerHand : [_game.dealerHand[0]])
         : 0;
 
-    // Actualizar _isInitialPhase: solo es true si el jugador tiene 2 cartas
+    // Verificamos si es la fase inicial del juego (primeras dos cartas)
     _isInitialPhase = _game.playerHand.length == 2;
 
+    // Manejamos el resultado del juego cuando este termina
     if (_game.gameOver && !_resultProcessed) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _handleGameResult(_game.result, context);
@@ -146,6 +163,7 @@ class _BlackJackScreenState extends State<BlackJackScreen> {
             left: screenSize.width * 0.7,
             child: _ScoreDisplay(score: dealerScore, color: Colors.red),
           ),
+
           Positioned(
             top: screenHeight * 0.2,
             left: screenSize.width * 0.12,
@@ -169,6 +187,7 @@ class _BlackJackScreenState extends State<BlackJackScreen> {
               isDealer: false,
             ),
           ),
+          // Botones de apuesta y acciones del juego
           Positioned(
             top: screenHeight * 0.85,
             left: 0,
@@ -184,16 +203,16 @@ class _BlackJackScreenState extends State<BlackJackScreen> {
               },
               onDoublePressed: () {
                 setState(() {
-                  balanceProvider.subtractCoins(_currentBet); // Restar la apuesta actual
-                  _currentBet *= 2; // Multiplicar la apuesta por 2
-                  _hasDoubledOrHalved = true; // Desactivar los botones X2 y /2
+                  balanceProvider.subtractCoins(_currentBet);
+                  _currentBet *= 2;
+                  _hasDoubledOrHalved = true;
                 });
               },
               onHalfPressed: () {
                 setState(() {
-                  balanceProvider.addCoins(_currentBet ~/ 2); // Devolver la mitad de la apuesta
-                  _currentBet ~/= 2; // Dividir la apuesta por 2
-                  _hasDoubledOrHalved = true; // Desactivar los botones X2 y /2
+                  balanceProvider.addCoins(_currentBet ~/ 2); 
+                  _currentBet ~/= 2;
+                  _hasDoubledOrHalved = true;
                 });
               },
               isDoubleEnabled: _isInitialPhase && !_hasDoubledOrHalved,
@@ -206,6 +225,7 @@ class _BlackJackScreenState extends State<BlackJackScreen> {
   }
 }
 
+/// Widget que muestra la puntuación.
 class _ScoreDisplay extends StatelessWidget {
   final int score;
   final Color color;
@@ -244,6 +264,7 @@ class _ScoreDisplay extends StatelessWidget {
   }
 }
 
+/// Widget para mostrar las cartas una encima de otra.
 class _CardStack extends StatelessWidget {
   final List<String> cards;
   final bool Function(int index) isFaceUp;

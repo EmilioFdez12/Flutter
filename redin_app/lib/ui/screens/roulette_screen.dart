@@ -7,6 +7,9 @@ import 'package:redin_app/utils/database/balance.dart';
 import 'package:redin_app/utils/music/music_manager.dart';
 import 'package:redin_app/ui/ui.dart';
 
+/// Pantalla principal donde se juega a la ruleta.
+/// Esta pantalla muestra la interfaz de usuario del juego,
+/// incluyendo las opciones para realizar apuestas y la propia ruleta.
 class RouletteScreen extends HookWidget {
   const RouletteScreen({super.key});
 
@@ -23,7 +26,6 @@ class RouletteScreen extends HookWidget {
     final balanceProvider = Provider.of<BalanceProvider>(context);
     final audioManager = Provider.of<AudioManager>(context);
 
-    // Inicializamos la lógica del juego
     final gameLogic = RouletteGameLogic(
       rotation: rotation,
       isSpinning: isSpinning,
@@ -43,12 +45,10 @@ class RouletteScreen extends HookWidget {
       showGrid.value = false;
     }
 
-    // Obtenemos el tamaño de la pantalla
     final screenSize = MediaQuery.of(context).size;
     final screenWidth = screenSize.width;
     final screenHeight = screenSize.height;
 
-    // Ajustamos el tamaño del contenedor de la ruleta y los botones
     final wheelSize = screenWidth * 0.7;
     final fontSize = screenWidth * 0.15;
 
@@ -59,7 +59,7 @@ class RouletteScreen extends HookWidget {
     }
 
     return Scaffold(
-      // Si se pulsa fuera del grid se cierra
+      // Si pulsamos fuera del grid se cierra
       body: GestureDetector(
         onTap: () {
           if (showGrid.value) {

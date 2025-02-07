@@ -1,5 +1,7 @@
   import 'package:flutter/material.dart';
 
+  /// Selector que permite elegir monedas 
+  /// de 1 en 1 o de 50 en 50
   class CoinSelector extends StatelessWidget {
     final int coinValue;
     final Function(int) onCoinChanged;

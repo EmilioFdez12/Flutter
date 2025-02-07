@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// Crea a un caballa con su propia calle
 class HorseRaceTrack extends StatelessWidget {
   final String horseImagePath;
   final double offset;

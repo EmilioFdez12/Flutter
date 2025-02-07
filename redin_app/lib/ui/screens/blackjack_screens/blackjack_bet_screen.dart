@@ -8,6 +8,7 @@ import 'package:redin_app/ui/screens/blackjack_screens/blackjack_screen.dart';
 import 'package:redin_app/utils/database/balance.dart';
 import 'package:redin_app/ui/ui.dart';
 
+/// Pantalla donde se realiza la apuesta del blackjack
 class BlackJackBetScreen extends HookWidget {
   const BlackJackBetScreen({super.key});
 
@@ -39,7 +40,7 @@ class BlackJackBetScreen extends HookWidget {
             top: screenHeight * 0.28,
             left: screenWidth * 0.1,
             child: Image.asset("assets/images/blackjack/blackjack_title.webp",
-            width: screenWidth * 0.8),
+                width: screenWidth * 0.8),
           ),
           Positioned(
             top: screenHeight * 0.5,
@@ -48,7 +49,6 @@ class BlackJackBetScreen extends HookWidget {
             child: Center(
               child: Stack(
                 children: [
-                  // Texto con borde (Outline)
                   Text(
                     "PLACE\nYOUR BET",
                     textAlign: TextAlign.center,
@@ -60,18 +60,16 @@ class BlackJackBetScreen extends HookWidget {
                         foreground: Paint()
                           ..style = PaintingStyle.stroke
                           ..strokeWidth = 4
-                          ..color = Colors.white, // Color del borde
+                          ..color = Colors.white,
                       ),
                     ),
                   ),
-                  // Texto principal (Relleno)
                   Text(
                     "PLACE\nYOUR BET",
                     textAlign: TextAlign.center,
                     style: GoogleFonts.poppins(
                       textStyle: TextStyle(
-                        color: const Color.fromARGB(
-                            255, 225, 0, 0), // Color de relleno
+                        color: const Color.fromARGB(255, 225, 0, 0),
                         fontSize: fontSize,
                         fontWeight: FontWeight.bold,
                         height: 1.2,
@@ -113,7 +111,6 @@ class BlackJackBetScreen extends HookWidget {
                       ),
                     );
                   } else {
-                    // Mostrar un mensaje de error si la apuesta no es válida
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                         content: Text('Apuesta no válida'),
@@ -122,10 +119,10 @@ class BlackJackBetScreen extends HookWidget {
                   }
                 },
                 child: Image.asset(
-                  'assets/images/blackjack/table/start_button.webp', // Ruta de la imagen
-                  width: screenWidth * 0.8, // Ancho de la imagen
-                  height: screenHeight * 0.1, // Alto de la imagen
-                  fit: BoxFit.contain, // Ajustar la imagen
+                  'assets/images/blackjack/table/start_button.webp',
+                  width: screenWidth * 0.8,
+                  height: screenHeight * 0.1,
+                  fit: BoxFit.contain,
                 ),
               ),
             ),

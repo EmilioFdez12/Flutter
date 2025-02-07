@@ -30,14 +30,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/redin_logo.png
-    
     - assets/images/home/home_background.png
-    - assets/images/home/welcomeCasino.png
-    - assets/images/home/roulette.png
-    - assets/images/home/blackjack.png
-    - assets/images/home/luckyWheel.png
-    - assets/images/home/slots.png
-    - assets/images/home/horses.png
 
     - assets/images/roulette/ruleta.webp
     - assets/images/roulette/arrow.webp

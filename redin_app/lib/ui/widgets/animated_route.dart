@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// Anima los cambios de pantalla
 class AnimatedRoute extends PageRouteBuilder {
   final Widget page;
 

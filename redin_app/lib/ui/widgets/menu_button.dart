@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+/// Boton utilizado en el menú
+/// Se utiliza para cada juego implementado
 class MenuButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// Anima las cartas del Blackjack 
 class AnimatedCard extends StatefulWidget {
   final String card;
   final bool isFaceUp;
@@ -13,6 +14,7 @@ class AnimatedCard extends StatefulWidget {
   });
 
   @override
+  // ignore: library_private_types_in_public_api
   _AnimatedCardState createState() => _AnimatedCardState();
 }
 

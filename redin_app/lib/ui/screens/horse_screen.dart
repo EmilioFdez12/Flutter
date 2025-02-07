@@ -6,6 +6,9 @@ import 'package:redin_app/utils/database/balance.dart';
 import 'package:redin_app/ui/ui.dart';
 import 'package:redin_app/utils/music/music_manager.dart';
 
+/// Pantalla principal donde se juega a los caballos.
+/// Esta pantalla muestra la interfaz de usuario del juego, 
+/// incluyendo las opciones para realizar apuestas.
 class HorseScreen extends HookWidget {
   const HorseScreen({super.key});
 

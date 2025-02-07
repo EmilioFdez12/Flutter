@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
+/// Boton para seleccionar a que caballo se va a 
+/// apostar para utilizar en la pantalla de caballos
 class HorseButton extends HookWidget {
   final Color color;
   final Color borderColor;

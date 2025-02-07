@@ -4,6 +4,8 @@ import 'package:redin_app/ui/ui.dart';
 import 'package:redin_app/utils/database/balance.dart';
 import 'package:redin_app/utils/music/music_manager.dart';
 
+/// Pantalla principal donde se muestran los minijuegos
+/// disponibles para jugar y el balance de monedas.
 class MenuScreen extends StatefulWidget {
   const MenuScreen({super.key});
 
@@ -16,14 +18,12 @@ class _MenuScreenState extends State<MenuScreen> {
   void initState() {
     super.initState();
     final audioManager = Provider.of<AudioManager>(context, listen: false);
-    // Reproducimos la música de fondo
     audioManager.playBackgroundMusic();
   }
 
   @override
   void dispose() {
     final audioManager = Provider.of<AudioManager>(context, listen: false);
-    // Limpiamos el audioManager
     audioManager.dispose();
     super.dispose();
   }
@@ -142,25 +142,6 @@ class _MenuScreenState extends State<MenuScreen> {
                       ),
                     ),
                     SizedBox(width: screenSize.width * 0.05),
-                    /*
-                    SizedBox(
-                      width: screenSize.width * 0.4,
-                      child: MenuButton(
-                        text: 'LUCKY\nWHEEL',
-                        onPressed: () {},
-                        lineHeight: 1,
-                        textColor: Colors.yellow,
-                        textShadow: [
-                          Shadow(
-                            color: Colors.yellow.withOpacity(0.5),
-                            blurRadius: 10,
-                          ),
-                        ],
-                        borderColor: Colors.yellow,
-                        boxShadowColor: Colors.yellow,
-                      ),
-                    ),
-                    */
                   ],
                 ),
               ],

@@ -5,36 +5,45 @@ import 'package:redin_app/ui/screens/menu_screen.dart';
 import 'package:redin_app/utils/database/balance.dart';
 import 'package:redin_app/utils/music/music_manager.dart';
 
+/// Punto de entrada de la aplicación.
+/// Configura la orientación de la pantalla, el estilo de la barra de estado,
+/// y proporciona las instancias de [AudioManager] y [BalanceProvider] a toda la aplicación.
 void main() {
+  // Aseguramos que Flutter esté inicializado antes de ejecutar la aplicación
   WidgetsFlutterBinding.ensureInitialized();
 
-  final audioManager = AudioManager(); // Crea una única instancia de AudioManager
+  // Creamos una única instancia de AudioManager y la inicializamos
+  final audioManager = AudioManager();
   audioManager.initialize();
-  // Solo orientación vertical
+
+  // Configuramos la orientación de la pantalla para que sea solo vertical
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
 
-  // Configuración de la barra de estado
+  // Configuramos el estilo de la barra de estado
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
-      statusBarColor: Color(0xFF0C0C0C),
+      statusBarColor: Color(0xFF0C0C0C), 
       statusBarIconBrightness: Brightness.light,
     ),
   );
 
+  // Iniciamos la aplicación con un MultiProvider para proporcionar dependencias
   runApp(
     MultiProvider(
       providers: [
-        Provider<AudioManager>.value(value: audioManager), // Proporciona AudioManager
-        ChangeNotifierProvider(create: (context) => BalanceProvider()), // Proporciona BalanceProvider
+        Provider<AudioManager>.value(value: audioManager),
+        ChangeNotifierProvider(create: (context) => BalanceProvider()),
       ],
       child: const Redin(),
     ),
   );
 }
 
+/// Widget principal de la aplicación.
+/// Define el tema y la pantalla inicial de la aplicación.
 class Redin extends StatelessWidget {
   const Redin({super.key});
 
@@ -42,6 +51,7 @@ class Redin extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
+      // Pantalla principal menu screen
       home: MenuScreen(),
     );
   }

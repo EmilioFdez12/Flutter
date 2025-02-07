@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// Boton para iniciar un juego tras apostar
 class SpinButton extends StatelessWidget {
   final String label;
   final VoidCallback? onPressed;
@@ -49,7 +50,7 @@ class SpinButton extends StatelessWidget {
             ),
             elevation: 0,
           ),
-          onPressed: onPressed, // Ahora puede ser null
+          onPressed: onPressed,
           child: ShaderMask(
             shaderCallback: (Rect bounds) {
               return const LinearGradient(

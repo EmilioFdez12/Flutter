@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+/// Grid de numeros, permite apostar por
+/// 1, 2, 3 o 4 numeros que conformen la ruleta
 class NumberGrid extends StatelessWidget {
   final int start;
   final int end;
